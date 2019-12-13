@@ -11,7 +11,7 @@
     <FuelTypes>
       <string>Petrol</string>
       <string>Diesel</string>
-      <string>Electric Power</string>	  
+      <string>Electric Power</string>
     </FuelTypes>
   </Car>
   <Car>
@@ -25,6 +25,7 @@
     <FuelTypes>
       <string>Petrol</string>
       <string>Diesel</string>
+      <string>Hynrid</string>
 	  <string>Electric Power</string>
     </FuelTypes>
   </Car>
@@ -39,13 +40,13 @@
       <string>Petrol</string>
       <string>Diesel</string>
     </FuelTypes>
-  </Car>  
+  </Car>
     <Car>
     <Make>Skoda</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
     </Seats>
     <FuelTypes>
@@ -53,13 +54,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car>  
+  </Car>
   <Car>
     <Make>Honda</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
 	</Seats>
@@ -68,13 +69,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car>  
+  </Car>
   <Car>
     <Make>Nissan</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -83,13 +84,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car>  
+  </Car>
     <Car>
     <Make>Suzuki</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -98,13 +99,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car>  
+  </Car>
   <Car>
     <Make>Toyota</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -113,13 +114,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car>  
+  </Car>
   <Car>
     <Make>Mazda</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -128,13 +129,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car>  
+  </Car>
     <Car>
     <Make>Volvo</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -143,13 +144,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car> 
+  </Car>
     <Car>
     <Make>Ford</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -158,13 +159,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car> 
+  </Car>
   <Car>
     <Make>Audi</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -173,13 +174,13 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car> 
+  </Car>
   <Car>
       <Make>Mercedes Benz</Make>
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -194,7 +195,7 @@
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -209,7 +210,7 @@
     <Seats>
       <int>1</int>
       <int>2</int>
-      <int>3</int>	  
+      <int>3</int>
 	  <int>4</int>
 	  <int>5</int>
     </Seats>
@@ -218,6 +219,6 @@
       <string>Diesel</string>
 	  <string>Electric Power</string>
 	</FuelTypes>
-  </Car> 
-    
+  </Car>
+
 </Cars>
