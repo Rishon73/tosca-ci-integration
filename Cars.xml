@@ -25,6 +25,7 @@
 		<FuelTypes>
 			<string>Petrol</string>
 			<string>Diesel</string>
+      <string>Electric Power</string>
 		</FuelTypes>
 	</Car>
 	<Car>
