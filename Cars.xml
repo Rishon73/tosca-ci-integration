@@ -23,7 +23,6 @@
 		</Seats>
 		<FuelTypes>
 			<string>Petrol</string>
-			<string>Electric Power</string>
 			<string>Diesel</string>
 		</FuelTypes>
 	</Car>
