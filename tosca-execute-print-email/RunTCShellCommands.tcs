@@ -1,0 +1,30 @@
+// RunTCShellCommands.tcs
+
+// Navigate to the node we need
+jumpToNode "/location/of/the/ExecutionList/you/wish/to/run"
+
+// Run the ExecutionList / TestCase
+task run
+
+// Generate a pdf report
+task "Print Report ... ExecutionEntries with ActualLog"
+
+// Report location and name (keep the double back-slashes)
+C:\\LOCATION\\OF\\THE\\PDF\\REPORT.pdf
+
+// Navigate to Send Mail test TestCase
+jumpToNode location/of/the/Send Mail/TestCase/or/ExecutionList/you/created
+
+// Run the Send Mail test TestCase or ExecutionList
+// If it's an ExecutionList use the 'run' task
+task run
+
+// If it's a TestCase use the 'Run in ScratchBook' task
+// task "Run in ScratchBook"
+
+// Exit TCShell
+exit
+
+// Confirm exit
+y
+y
