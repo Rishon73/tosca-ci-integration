@@ -18,10 +18,11 @@ Tricentis demo app configuration file - _C:\DevOpsPackage\TricentisWebServer\Xml
 1. qTest: Downloads > CI Tools Integration > Copy API Token
 
 2. Jenkins: job config > Post-build Actions >
-  * Add 'Submit JUnit test results to qTest'
-  * Check the 'Execute Tricentis Tosca Tests'
-  * Path to Tricentis Tosca CI Executable: _C:\Program Files (x86)\TRICENTIS\Tosca Testsuite\ToscaCommander\ToscaCI\Client\ToscaCIClient.exe_
-  * Tricentis Tosca Command Line Arguments:  _-m distributed -r Results.xml -t junit -x True_
-  * Path to Results: __Results.xml__
-  * qTest URL: [https://sademo.qtestnet.com/](https://sademo.qtestnet.com/)
-  * API Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (same API Token from step 1)
+    * Add 'Submit JUnit test results to qTest'
+    * qTest URL: [https://sademo.qtestnet.com/](https://sademo.qtestnet.com/)
+    * API Key: same API Token you got in step 1 above (I'm not telling you my super-secret token)
+    * Selected Project
+    * Submit test results to an existing container: select the container you wish
+    * Environment: optional
+    * Select - Utilize test results from the CI tool
+    * Select - Each JUnit Test Suite (class) = a qTest Test Case
