@@ -1,5 +1,4 @@
-# ToscaDemo
-
+# Tosca CI Integration Demo
 
 Tricentis demo app configuration file - _C:\DevOpsPackage\TricentisWebServer\Xml_Sprint1\Cars.xml_
 
@@ -7,9 +6,9 @@ Tricentis demo app configuration file - _C:\DevOpsPackage\TricentisWebServer\Xml
 
 ***Option 1: NO qTest Integration***
 1. Jenkins: job config > build >
-   Add 'Execute Windows batch Command'  
-   copy Cars.xml C:\DevOpsPackage\TricentisWebServer\Xml_Sprint1\Cars.xml  
-   _"C:\Program Files (x86)\TRICENTIS\Tosca Testsuite\ToscaCommander\ToscaCI\Client\ToscaCIClient.exe" -m distributed -r Results.xml -t junit -x True_
+   Add 'Execute Windows batch Command' and type the following commands:
+   _copy Cars.xml C:\DevOpsPackage\TricentisWebServer\Xml_Sprint1\Cars.xml  
+   "C:\Program Files (x86)\TRICENTIS\Tosca Testsuite\ToscaCommander\ToscaCI\Client\ToscaCIClient.exe" -m distributed -r Results.xml -t junit -x True_
 
 2. Jenkins: job config > Post-build Actions >
    Add 'Publish JUnit test results report' > Test report XMLs: Results.xml
