@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testConfiguration>
 	<TestEvents>
-		<TestEvent>wines-and-spirits</TestEvent>
-		<TestEvent>overnight-build-and-test</TestEvent>
+		<TestEvent>overnight-api-test</TestEvent>
+		<TestEvent>overnight-ui-test</TestEvent>
 </TestEvents>
 </testConfiguration>
