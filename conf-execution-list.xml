@@ -2,5 +2,6 @@
 <testConfiguration>
 	<TestEvents>
 		<TestEvent>wines-and-spirits</TestEvent>
-	</TestEvents>
+		<TestEvent>overnight-build-and-test</TestEvent>
+</TestEvents>
 </testConfiguration>
