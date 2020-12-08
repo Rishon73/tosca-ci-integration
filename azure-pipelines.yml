@@ -22,12 +22,7 @@ jobs:
         Write-Host [Debug]: Running in folder: (pwd)
         Write-Host "[Debug]: IP addresses: " (Get-NetIPAddress)
         "C:\\ado-agent\\ToscaCI\\Client\\ToscaCIClient.exe" -m distributed -t junit -x True -r results.xml -c conf-execution-list.xml -e http://toscademovm:90/DistributionServerService/ManagerService.svc
-  #- task: CmdLine@1
-  #  displayName: Run ToscaCIClient with CLI
-  #  inputs:
-  #    filename: C:\ado-agent\ToscaCI\Client\ToscaCIClient.exe
-  #    arguments: -m distributed -t junit -x True -r TEST-results.xml -c conf-execution-list.xml -e http://toscademovm:90/DistributionServerService/ManagerService.svc
-
+        
   - task: PublishTestResults@2
     condition: always()
     displayName: Publish Test Results **/results*.xml
