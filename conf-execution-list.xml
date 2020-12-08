@@ -2,7 +2,7 @@
 <testConfiguration>
 	<TestEvents>
 		<TestEvent>Only_API</TestEvent>
-		<!--TestEvent>overnight-api-test</TestEvent>
-		<TestEvent>overnight-ui-test</TestEvent-->
+		<!--TestEvent>overnight-api-test</TestEvent-->
+		<!--TestEvent>overnight-ui-test</TestEvent-->
 </TestEvents>
 </testConfiguration>
