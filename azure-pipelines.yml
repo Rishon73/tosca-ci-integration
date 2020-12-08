@@ -19,8 +19,8 @@ jobs:
     inputs:
       targetType: inline
       script: >-
-        Write-Host [Debug]: Running in folder: $(pwd)
-        Write-Host "[Debug]: IP addresses: " $(Get-NetIPAddress)
+        Write-Host "[Debug]: Running in folder: $(pwd)"
+        Write-Host "[Debug]: IP addresses:  $(Get-NetIPAddress)"
         Invoke-expression "C:\\ado-agent\\ToscaCI\\Client\\ToscaCIClient.exe" -m distributed -t junit -x True -r results.xml -c conf-execution-list.xml -e http://toscademovm:90/DistributionServerService/ManagerService.svc
         
   - task: PublishTestResults@2
