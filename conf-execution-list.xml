@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testConfiguration>
 	<TestEvents>
-		<TestEvent>overnight-api-test</TestEvent>
-		<TestEvent>overnight-ui-test</TestEvent>
+		<TestEvent>Only_API</TestEvent>
+		<!--TestEvent>overnight-api-test</TestEvent>
+		<TestEvent>overnight-ui-test</TestEvent-->
 </TestEvents>
 </testConfiguration>
