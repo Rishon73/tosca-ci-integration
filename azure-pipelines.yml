@@ -28,10 +28,6 @@ jobs:
   #    filename: C:\ado-agent\ToscaCI\Client\ToscaCIClient.exe
   #    arguments: -m distributed -t junit -x True -r TEST-results.xml -c conf-execution-list.xml -e http://toscademovm:90/DistributionServerService/ManagerService.svc
 
-- job: Reports
-  displayName: Run Tosca tests
-  pool: Self-hosted Tosca
-  steps:
   - task: PublishTestResults@2
     condition: always()
     displayName: Publish Test Results **/results*.xml
