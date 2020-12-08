@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testConfiguration>
 	<TestEvents>
-		<TestEvent>Only_API</TestEvent>
+		<!--TestEvent>Only_API</TestEvent-->
+		<!--TestEvent>Only_GUI</TestEvent-->
+		<TestEvent>ADO_pipeline</TestEvent>
 		<!--TestEvent>overnight-api-test</TestEvent>
 		<TestEvent>overnight-ui-test</TestEvent-->
 </TestEvents>
