@@ -15,28 +15,24 @@ jobs:
   steps:
   - checkout: self
   - task: PowerShell@2
-    displayName: Run ToscaCIClient with PowerShell
+    displayName: PowerShell: Run Tosca test(s) via ToscaCIClient
     inputs:
-      targetType: inline
-      script: |
-        Write-Host "[Debug]: Running in folder:" $(pwd);
-        Write-Host "[Debug]: DefaultWorkingDirectory is: " $(System.DefaultWorkingDirectory);
-
-        $CIClientCmd="C:\ado-agent\ToscaCI\Client\ToscaCIClient.exe";
-        $params=" -m distributed -t junit -x True -r results.xml -c conf-execution-list.xml -e http://toscademovm:90/DistributionServerService/ManagerService.svc";
-        $command="$CIClientCmd $params";
-        Invoke-Expression -Command $command;
-
+      targetType: 'filePath'
+      filePath: $(System.DefaultWorkingDirectory)\run-tosca-test.ps1
+      arguments: >
+        -resultsFile "results.xml"
+        -executionListFile "conf-execution-list.xml"
 
   - task: PowerShell@2
     displayName: Publish results to qTest
+    condition: always()
     inputs:
       targetType: 'filePath'
       filePath: $(System.DefaultWorkingDirectory)\publish-results-to-qtest.ps1
-      arguments: > 
+      arguments: >
         -projectId "105466"
         -testCycle "2193247"
-        -uploadResultsFile "$(System.DefaultWorkingDirectory)/results.xml"
+        -uploadResultsFile "$(System.DefaultWorkingDirectory)\results.xml"
 
   - task: PublishTestResults@2
     condition: always()
