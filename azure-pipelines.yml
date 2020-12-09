@@ -18,7 +18,7 @@ jobs:
     displayName: Run ToscaCIClient with PowerShell
     inputs:
       targetType: inline
-      script: >-
+      script: |
         Write-Host "[Debug]: Running in folder:" $(pwd);
         Write-Host "[Debug]: DefaultWorkingDirectory is: " $(System.DefaultWorkingDirectory);
         
@@ -28,11 +28,9 @@ jobs:
         #Invoke-Expression -Command $command;
 
   - task: PowerShell@2
-    displayName: Publish Results to qTest
-    condition: always()
     inputs:
-      targetType: inline
-      script: >-
+      targetType: 'inline'
+      script: |
         $url = 'https://pulse-7.qtestnet.com/webhook/c3fe0169-a106-42e8-b7d9-06ee0cd924a1'
         $content = (Get-Content results.xml -Raw)
         $bytes = [System.Text.Encoding]::ASCII.GetBytes($content)
@@ -46,10 +44,8 @@ jobs:
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         Invoke-RestMethod -Body $body -Method 'Post' -Uri $url
 
-#        Write-Host "hello there";
-
   - task: PublishTestResults@2
-    condition: never()
+    condition: always()
     displayName: Publish Test Results **/results*.xml
     inputs:
       testResultsFiles: '**/results*.xml'
