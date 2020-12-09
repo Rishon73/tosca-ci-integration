@@ -15,7 +15,7 @@ jobs:
   steps:
   - checkout: self
   - task: PowerShell@2
-    displayName: PowerShell: Run Tosca test(s) via ToscaCIClient
+    displayName: PowerShell - Run Tosca test(s) via ToscaCIClient
     inputs:
       targetType: 'filePath'
       filePath: $(System.DefaultWorkingDirectory)\run-tosca-test.ps1
