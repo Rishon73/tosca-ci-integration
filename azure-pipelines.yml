@@ -27,11 +27,16 @@ jobs:
         $command="$CIClientCmd $params";
         Invoke-Expression -Command $command;
 
+
   - task: PowerShell@2
+    displayName: Publish results to qTest
     inputs:
-      targetType: 'inline'
-      script: |
-        publish-results-to-qtest.ps1 -projectId "105466" -testCycle "2193247" -uploadResultsFile "$(System.DefaultWorkingDirectory)/results.xml"
+      targetType: 'filePath'
+      filePath: $(System.DefaultWorkingDirectory)\publish-results-to-qtest.ps1
+      arguments: > 
+        -projectId "105466"
+        -testCycle "2193247"
+        -uploadResultsFile "$(System.DefaultWorkingDirectory)/results.xml"
 
   - task: PublishTestResults@2
     condition: always()
