@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testConfiguration>
 	<TestEvents>
-		<!--TestEvent>Only_API</TestEvent-->
+		<TestEvent>Only_API</TestEvent>
 		<!--TestEvent>Only_GUI</TestEvent-->
 		<!--TestEvent>ADO_pipeline</TestEvent-->
 		<!--TestEvent>SAP_New_Customer_n_Order</TestEvent-->
-		<TestEvent>End2End</TestEvent>
+		<!--TestEvent>End2End</TestEvent-->
 </TestEvents>
 </testConfiguration>
