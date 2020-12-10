@@ -14,8 +14,10 @@ jobs:
   pool: Self-hosted Tosca
   steps:
   - checkout: self
+
+  #Run Tosca test(s) via ToscaCIClient
   - task: PowerShell@2
-    displayName: PowerShell - Run Tosca test(s) via ToscaCIClient
+    displayName: Run Tosca test(s) via ToscaCIClient
     inputs:
       targetType: 'filePath'
       filePath: $(System.DefaultWorkingDirectory)\run-tosca-test.ps1
@@ -23,6 +25,7 @@ jobs:
         -resultsFile "results.xml"
         -executionListFile "conf-execution-list.xml"
 
+  #Publish results to qTest
   - task: PowerShell@2
     displayName: Publish results to qTest
     condition: always()
@@ -34,6 +37,15 @@ jobs:
         -testCycle "2193247"
         -uploadResultsFile "$(System.DefaultWorkingDirectory)\results.xml"
 
+  #Export PDF Report
+  - task: PowerShell@2
+    displayName: Export PDF Report
+    condition: always()
+    inputs:
+      targetType: 'filePath'
+      filePath: $(System.DefaultWorkingDirectory)\export-pdf-report.ps1
+
+  #Publish Test Results
   - task: PublishTestResults@2
     condition: always()
     displayName: Publish Test Results **/results*.xml
