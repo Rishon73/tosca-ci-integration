@@ -1,0 +1,9 @@
+TWS/
+TWS
+#ExportSubsets.tsc
+#ImportSubsets.tsc
+*.pdf
+
+results.xml
+Results/
+export-report.tsc
