@@ -65,8 +65,7 @@ $password="`"tosca`""
 #}
 #Catch{}
 
-Write-Host "[Debug] Folder is: "$tscFileLocation
-write-host "[Debug] Running command: `n& `"$TCShellExe`" -workspace `"$workspace`" -login $user $password `"$tscFileLocation\$tscFile`"`n"
+Write-Host "[Debug] Folder is: "$(pwd)\$tscFile
+write-host "[Debug] Running command: `n& `"$TCShellExe`" -workspace `"$workspace`" -login $user $password `"$(pwd)\$tscFile`"`n"
 
 &$TCShellExe -workspace $workspace -login $user $password $tscFileLocation\$tscFile
-
