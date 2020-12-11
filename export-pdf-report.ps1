@@ -4,10 +4,11 @@ $timeStamp=Get-Date -Format "MMM dd, yyyy @ hh:mm:ss"
 ##############################################################
 # CREATE TSC FILE
 ##############################################################
-#if (Test-Path -Path $tscFile) {rm $tscFile}
 
+# Delete all *tsc files
 rm -Force *.tsc
 
+# Start building the *.tsc file
 Add-Content $tscFile "// $tscFile //"
 Add-Content $tscFile "// This file was created on $timeStamp "
 Add-Content $tscFile "//#########################################################//"
@@ -21,22 +22,10 @@ Add-Content $tscFile "`n"
 Add-Content $tscFile "// Run print report task //"
 Add-Content $tscFile "task `"Print Report ... ExecutionEntries with detailed Logs Modified`""
 
-#Try {
-#    if ($env:CI_PROJECT_DIR) {$exportLocation=$env:CI_PROJECT_DIR; Write-Host "[Debug] GitLab"}
-#    elseif ($(System.DefaultWorkingDirectory)) {$tscFileLocation=$(System.DefaultWorkingDirectory); Write-Host "[Debug] Azure DevOps"}
-#    else  {$exportLocation = split-path -parent $MyInvocation.MyCommand.Definition; Write-Host "[Debug] Local"}
-#} Catch {Write-Error "WHAT THE FUCK!!!!!!!!!!!"}
-
-#Write-Host "[Debug] MyInvocation.MyCommand.Definition: " $MyInvocation.MyCommand.Definition
-Write-Host "[Debug] pwd: $(pwd)"
-
-#$exportLocation = split-path -parent $MyInvocation.MyCommand.Definition;
-#$exportLocation = $(pwd)
-#Write-Host "[Debug] Export to folder: "$exportLocation
-
+# Build the file name and path
 $exportFileName="$(pwd)\RunReport_$(Get-Date -Format "yyyyMMddTHHmmssffff").pdf"
-#$exportLocation=$exportLocation+"\Results\"
 $exportFileName=$exportFileName.Replace("\","\\")
+Write-Host "[Debug] pwd: $(pwd)"
 
 Write-Host "[Debug] TSC file name and path: $($exportFileName)"
 
@@ -52,20 +41,22 @@ Add-Content $tscFile y
 # RUN TSC FILE IN TCShell
 ##############################################################
 
-$TCShellExe="$Env:COMMANDER_HOME\TCShell.exe"
-$workspace="$Env:TRICENTIS_PROJECTS\Tosca_Workspaces\DEX_Shared_Workspace\DEX_Shared_Workspace.tws"
-$workspaceFolder=split-path -Parent $workspace
-$user="`"Tosca`""
-$password="`"tosca`""
+$exportFileName=$exportFileName.Replace("\\","\")
+if(Test-Path -Path $exportFileName) {
+  # Define variables
+  $TCShellExe="$Env:COMMANDER_HOME\TCShell.exe"
+  $workspace="$Env:TRICENTIS_PROJECTS\Tosca_Workspaces\DEX_Shared_Workspace\DEX_Shared_Workspace.tws"
+  $workspaceFolder=split-path -Parent $workspace
+  $user="`"Tosca`""
+  $password="`"tosca`""
 
-#Try{
-#    if ($env:CI_PROJECT_DIR) {$tscFileLocation=$env:CI_PROJECT_DIR; Write-Host "[Debug] GitLab"}
-#    elseif ($(System.DefaultWorkingDirectory)) {$tscFileLocation=$(System.DefaultWorkingDirectory); Write-Host "[Debug] Azure DevOps"}
-#    else  {$tscFileLocation = split-path -parent $MyInvocation.MyCommand.Definition; Write-Host "[Debug] Local"}
-#}
-#Catch{}
+  Write-Host "[Debug] Folder is: "$(pwd)\$tscFile
+  write-host "[Debug] Running command: `n& `"$TCShellExe`" -workspace `"$workspace`" -login $user $password `"$(pwd)\$tscFile`"`n"
 
-Write-Host "[Debug] Folder is: "$(pwd)\$tscFile
-write-host "[Debug] Running command: `n& `"$TCShellExe`" -workspace `"$workspace`" -login $user $password `"$(pwd)\$tscFile`"`n"
-
-&$TCShellExe -workspace $workspace -login $user $password $tscFileLocation\$tscFile
+  # Run TSC file in TCShell
+  &$TCShellExe -workspace $workspace -login $user $password $tscFileLocation\$tscFile
+}
+else { 
+  Write-Host "[Error]: TSC file is missing. Exiting without creating the PDF report"
+  Exit 1
+}
