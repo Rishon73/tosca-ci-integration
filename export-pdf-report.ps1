@@ -41,7 +41,7 @@ Add-Content $tscFile y
 # RUN TSC FILE IN TCShell
 ##############################################################
 
-$exportFileName=$exportFileName.Replace("\\","\")
+$exportFileName="$(Split-Path $exportFileName -Parent)\$tscFile"
 if(Test-Path -Path $exportFileName) {
   # Define variables
   $TCShellExe="$Env:COMMANDER_HOME\TCShell.exe"
@@ -56,7 +56,7 @@ if(Test-Path -Path $exportFileName) {
   # Run TSC file in TCShell
   &$TCShellExe -workspace $workspace -login $user $password $tscFileLocation\$tscFile
 }
-else { 
+else {
   Write-Host "[Error]: TSC file is missing. Exiting without creating the PDF report"
-  Exit 1
+  Exit -1
 }
