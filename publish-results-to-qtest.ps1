@@ -1,10 +1,4 @@
-#param ($projectId, $testCycle, $uploadResultsFile)
-
-$uploadResultsFile = "C:\ado-agent\_work\2\s\results.xml"
-$testCycle = "2193247"
-$projectId = "105466"
-
-Write-Host  "Debug -- Results file path: " $uploadResultsFile
+param ($projectId, $testCycle, $uploadResultsFile)
 
 $url = 'https://pulse-7.qtestnet.com/webhook/74595985-7445-4534-af21-b40bded3cb5f'
 $content = (Get-Content $uploadResultsFile -Raw)
