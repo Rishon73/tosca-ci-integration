@@ -12,6 +12,8 @@ jobs:
 - job: Run_Tests
   displayName: Run Tosca tests
   pool: Self-hosted Tosca
+  demands:
+  - HostedDEX
   steps:
   - checkout: self
 
