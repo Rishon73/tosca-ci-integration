@@ -18,7 +18,7 @@ $t = 'junit'
 $x = 'True'
 $r = $resultsFile
 $c = $executionListFile
-$e = $ToscaHostedServerAddrs'/DistributionServerService/ManagerService.svc'
+$e = $ToscaHostedServerAddrs+'/DistributionServerService/ManagerService.svc'
 
 Write-Host "Running command: `n& $ToscaCIClientExe -m $m -t $t -x $x -r $r -c $c -e $e`n"
 
