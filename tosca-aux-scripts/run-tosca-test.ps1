@@ -1,4 +1,4 @@
-param ($resultsFile='results.xml', $executionListFile='conf-execution-list.xml', $local='True')
+param ($resultsFile='results\results.xml', $executionListFile='conf-execution-list.xml', $local='True')
 
 # Create the Results folder if it's not there
 if ( -not (Test-Path -LiteralPath 'Results' -PathType Container) ) { mkdir Results }
