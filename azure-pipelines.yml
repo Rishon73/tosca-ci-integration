@@ -23,8 +23,8 @@ jobs:
       targetType: 'filePath'
       filePath: $(System.DefaultWorkingDirectory)\tosca-aux-scripts\run-tosca-test.ps1
       arguments: >
-        -resultsFile "results.xml"
-        -executionListFile "conf-execution-list.xml"
+        -resultsFile "results\results.xml"
+        -executionListFile "tosca-aux-scripts\conf-execution-list.xml"
 
   #Publish results to qTest
   - task: PowerShell@2
