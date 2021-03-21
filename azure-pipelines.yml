@@ -44,7 +44,7 @@ jobs:
     condition: always()
     inputs:
       targetType: 'filePath'
-      filePath: $(System.DefaultWorkingDirectory)\export-pdf-report.ps1
+      #filePath: $(System.DefaultWorkingDirectory)\export-pdf-report.ps1
 
   #Publish Test Results
   - task: PublishTestResults@2
