@@ -21,7 +21,7 @@ jobs:
     displayName: Run Tosca test(s) via ToscaCIClient
     inputs:
       targetType: 'filePath'
-      filePath: $(System.DefaultWorkingDirectory)\\run-tosca-test.ps1
+      filePath: $(System.DefaultWorkingDirectory)\tests\run-tosca-test.ps1
       arguments: >
         -resultsFile "results\results.xml"
         -executionListFile "tests\conf-execution-list.xml"
