@@ -41,9 +41,9 @@ jobs:
   #Export PDF Report
   - task: PowerShell@2
     displayName: Export PDF Report
-    condition: always()
-    inputs:
-      targetType: 'filePath'
+    #condition: always()
+    #inputs:
+      #targetType: 'filePath'
       #filePath: $(System.DefaultWorkingDirectory)\tests\export-pdf-report.ps1
 
   #Publish Test Results
