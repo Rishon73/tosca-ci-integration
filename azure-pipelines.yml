@@ -21,10 +21,10 @@ jobs:
     displayName: Run Tosca test(s) via ToscaCIClient
     inputs:
       targetType: 'filePath'
-      filePath: $(System.DefaultWorkingDirectory)\tosca-aux-scripts\run-tosca-test.ps1
+      filePath: $(System.DefaultWorkingDirectory)\\run-tosca-test.ps1
       arguments: >
         -resultsFile "results\results.xml"
-        -executionListFile "tosca-aux-scripts\conf-execution-list.xml"
+        -executionListFile "tests\conf-execution-list.xml"
 
   #Publish results to qTest
   - task: PowerShell@2
@@ -32,7 +32,7 @@ jobs:
     condition: always()
     inputs:
       targetType: 'filePath'
-      filePath: $(System.DefaultWorkingDirectory)\tosca-aux-scripts\publish-results-to-qtest.ps1
+      filePath: $(System.DefaultWorkingDirectory)\tests\publish-results-to-qtest.ps1
       arguments: >
         -projectId "105466"
         -testCycle "2193247"
@@ -44,7 +44,7 @@ jobs:
     condition: always()
     inputs:
       targetType: 'filePath'
-      #filePath: $(System.DefaultWorkingDirectory)\tosca-aux-scripts\export-pdf-report.ps1
+      #filePath: $(System.DefaultWorkingDirectory)\tests\export-pdf-report.ps1
 
   #Publish Test Results
   - task: PublishTestResults@2
