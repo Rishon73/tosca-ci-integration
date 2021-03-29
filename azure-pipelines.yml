@@ -39,8 +39,8 @@ jobs:
         -uploadResultsFile "$(System.DefaultWorkingDirectory)\results\results.xml"
 
   #Export PDF Report
-  - task: PowerShell@2
-    displayName: Export PDF Report
+  #- task: PowerShell@2
+  #  displayName: Export PDF Report
     #condition: always()
     #inputs:
       #targetType: 'filePath'
