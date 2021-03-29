@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testConfiguration>
 	<TestEvents>
-		<TestEvent>GetSetPerson</TestEvent>
+		<!--TestEvent>GetSetPerson</TestEvent-->
 		<!--TestEvent>Only_GUI</TestEvent-->
 		<TestEvent>ADO_pipeline</TestEvent>
 		<!--TestEvent>SAP_New_Customer_n_Order</TestEvent-->
