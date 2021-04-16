@@ -5,6 +5,6 @@
 		<!--TestEvent>Only_GUI</TestEvent-->
 		<!--TestEvent>ADO_pipeline</TestEvent-->
 		<!--TestEvent>SAP_UseCases</TestEvent-->
-		<!--TestEvent>Short_GUI</TestEvent-->
+		<TestEvent>Short_GUI</TestEvent>
 </TestEvents>
 </testConfiguration>
