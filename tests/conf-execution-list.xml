@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testConfiguration>
 	<TestEvents>
-		<!--TestEvent>GetSetPerson</TestEvent>
-		<TestEvent>Short_GUI</TestEvent-->
+		<!--TestEvent>GetSetPerson</TestEvent-->
+		<TestEvent>Short_GUI</TestEvent>
 		<!--TestEvent>Only_GUI</TestEvent-->
 		<!--TestEvent>ADO_pipeline</TestEvent-->
-		<TestEvent>my_little_dotNet_demo</TestEvent>
 	</TestEvents>
 </testConfiguration>
