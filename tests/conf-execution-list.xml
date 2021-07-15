@@ -2,7 +2,7 @@
 <testConfiguration>
 	<TestEvents>
 		<!--TestEvent>GetSetPerson</TestEvent-->
-		<TestEvent>my_little_demo</TestEvent>
+		<TestEvent>Jenkins_pipeline</TestEvent>
 		<!--TestEvent>Only_GUI</TestEvent-->
 		<!--TestEvent>ADO_pipeline</TestEvent-->
 	</TestEvents>
