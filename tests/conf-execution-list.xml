@@ -2,7 +2,8 @@
 <testConfiguration>
 	<TestEvents>
 		<!--TestEvent>GetSetPerson</TestEvent-->
-		<TestEvent>GitLab_pipeline</TestEvent>
+		<!--TestEvent>GitLab_pipeline</TestEvent-->
+		<TestEvent>More_API</TestEvent>
 		<!--TestEvent>Only_GUI</TestEvent-->
 		<!--TestEvent>ADO_pipeline</TestEvent-->
 	</TestEvents>
