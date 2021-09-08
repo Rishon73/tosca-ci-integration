@@ -49,7 +49,7 @@ jobs:
   #Publish Test Results
   - task: PublishTestResults@2
     condition: always()
-    displayName: Publish Test Results **/results/results*.xml
     inputs:
-      testResultsFiles: '**/results/results*.xml'
-...
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'results\results.xml'
+      testRunTitle: 'Publish JUNIT test results'
