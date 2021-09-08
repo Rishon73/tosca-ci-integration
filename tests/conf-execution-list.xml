@@ -5,6 +5,7 @@
 		<!--TestEvent>GitLab_pipeline</TestEvent-->
 		<TestEvent>Only_API</TestEvent>
 		<!--TestEvent>ADO_pipeline</TestEvent-->
+		<!--add comment-->
 		<!--TestEvent>Jenkins_pipeline</TestEvent-->
 	</TestEvents>
 </testConfiguration>
