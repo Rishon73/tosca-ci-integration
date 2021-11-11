@@ -25,6 +25,7 @@ jobs:
       arguments: >
         -resultsFile "results\results.xml"
         -executionListFile "tests\conf-execution-list.xml"
+        -toscaServer "http://toscademovm:5007"
 
   #Publish results to qTest
   - task: PowerShell@2
