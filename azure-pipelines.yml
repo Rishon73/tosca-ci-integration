@@ -80,3 +80,4 @@ jobs:
     name: Self-hosted Tosca
   steps:
     - script: echo Deploying to staging now...
+  dependsOn: Run_Tests
