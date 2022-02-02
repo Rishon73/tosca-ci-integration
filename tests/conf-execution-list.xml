@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testConfiguration>
 	<TestEvents>
-		<!--TestEvent>GetSetPerson</TestEvent-->
+		<TestEvent>GetSetPerson</TestEvent>
 		<!--TestEvent>Only_API</TestEvent-->
 		<!--TestEvent>GitLab_pipeline</TestEvent-->
-		<TestEvent>ADO_pipeline</TestEvent>
+		<!--TestEvent>ADO_pipeline</TestEvent-->
 		<!--TestEvent>SAP_UseCases</TestEvent-->
 		<!--TestEvent>Jenkins_pipeline</TestEvent-->
 	</TestEvents>
