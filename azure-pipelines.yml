@@ -15,15 +15,15 @@ jobs:
   pool:
     name: Self-hosted Tosca
   steps:
-    - script: echo Building now
+    - script: echo Building now...
 
 - job: Deploy_Application
   displayName: Deploy application do Docker
   pool:
     name: Self-hosted Tosca
   steps:
-    - script: echo set environment
-    - script: echo depoly to container
+    - script: echo set environment...
+    - script: echo depoly to container...
   dependsOn: Build_Application
 
 - job: Run_Tests
@@ -73,3 +73,10 @@ jobs:
       testResultsFormat: 'JUnit'
       testResultsFiles: 'results\results.xml'
       testRunTitle: 'Publish JUNIT test results'
+
+- job: Deploy_to_Staging
+  displayName: Deploy to the staging env
+  pool:
+    name: Self-hosted Tosca
+  steps:
+    - script: echo Deploying to staging now...
