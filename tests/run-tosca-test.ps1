@@ -1,4 +1,4 @@
-param ($resultsFile='results\results.xml', $executionListFile='conf-execution-list.xml', $toscaServer='http://toscademovm:5007')
+param ($resultsFile='results\results.xml', $executionListFile='conf-execution-list.xml', $toscaServer='http://toscademovm')
 
 # Create the Results folder if it's not there
 if ( -not (Test-Path -LiteralPath 'Results' -PathType Container) ) { mkdir Results }
