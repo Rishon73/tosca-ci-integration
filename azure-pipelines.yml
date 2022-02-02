@@ -24,9 +24,12 @@ jobs:
   steps:
     - script: echo set environment
     - script: echo depoly to container
+  dependsOn: Build_Application
 
 - job: Run_Tests
   displayName: Run Tosca tests
+  dependsOn: Deploy_Application
+
   pool:
     name: Self-hosted Tosca
   steps:
