@@ -8,7 +8,23 @@ resources:
   - repository: self
     type: git
     ref: master
+
 jobs:
+- job: Build_Application
+  displayName: Build Tricentis Insurance Quoting Application
+  pool:
+    name: Self-hosted Tosca
+  steps:
+    - script: echo Building now
+
+- job: Deploy_Application
+  displayName: Deploy application do Docker
+  pool:
+    name: Self-hosted Tosca
+  steps:
+    - script: echo set environment
+    - script: echo depoly to container
+
 - job: Run_Tests
   displayName: Run Tosca tests
   pool:
