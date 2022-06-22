@@ -1,7 +1,7 @@
 [
     "ShiffTestEvets",
     {
-      "eventId": "ado-pipeline",
+      "eventId": "GetSetPerson",
       "parameters": {
         "AutoMake": "Acura"
       },
