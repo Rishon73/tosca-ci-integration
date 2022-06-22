@@ -43,7 +43,7 @@ jobs:
       #filePath: $(System.DefaultWorkingDirectory)\tests\run-tosca-test.ps1
       filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
       arguments: >
-        -toscaServerUrl "http://https://e91f-96-227-71-247.ngrok.io" 
+        -toscaServerUrl "https://e91f-96-227-71-247.ngrok.io" 
         -eventsConfigFilePath "tests\testEvents.json"  
         -projectName "NEW_DEX_WS" 
         -creator "Shahar Shiff"
