@@ -1,15 +1,10 @@
-{
-	"projectName": "NEW_DEX_WS",
-	"executionEnvironment": "Dex",
-	"events": [
-		{
-			"eventId": "qTestEvent-CI_ExecutionList",
-			"parameters": {
-				"Browser": "Chrome"
-			},
-			"characteristics": {}
-		}
-	],
-	"importResult": true,
-	"creator": "S.Shiff"
-}
+[
+    "ShiffTestEvets",
+    {
+      "eventId": "ado-pipeline",
+      "parameters": {
+        "AutoMake": "Acura"
+      },
+      "characteristics": {}
+    }
+]
