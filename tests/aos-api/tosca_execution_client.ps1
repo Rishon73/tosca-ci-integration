@@ -393,7 +393,6 @@ function enqueueExecution() {
             -ContentType $contentType                                             `
             -Method Post                                                          `
             -TimeoutSec $requestTimeout                                           `
-            -UseBasicParsing                                                      `
 
         $status = $enqueueResponse.StatusCode
         $content = $enqueueResponse.Content
@@ -571,7 +570,6 @@ if ( $validationFailed -eq $true ) {
     displayHelp
     exit 1
 }
-
 log "INF" "Starting ToscaExecutionClient..."
 
 # Use value from events config file
