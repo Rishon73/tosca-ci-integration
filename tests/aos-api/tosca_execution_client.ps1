@@ -393,6 +393,7 @@ function enqueueExecution() {
             -ContentType $contentType                                             `
             -Method Post                                                          `
             -TimeoutSec $requestTimeout                                           `
+            -UseBasicParsing                                                      `
 
         $status = $enqueueResponse.StatusCode
         $content = $enqueueResponse.Content
