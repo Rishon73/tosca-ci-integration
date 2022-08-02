@@ -1,10 +1,9 @@
 [
-    "GetSetPerson",
-    {
-      "eventId": "ado-pipeline",
-      "parameters": {
-        "AutoMake": "Acura"
-      },
-      "characteristics": {}
-    }
+  {
+    "eventId": "Jenkins_pipeline",
+    "parameters": {
+      "AutoMake": "Acura"
+    },
+    "characteristics": {}
+  }
 ]
