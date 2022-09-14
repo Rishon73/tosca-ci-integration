@@ -53,16 +53,16 @@ jobs:
   #      -toscaServer "http://toscademovm:5007"
 
   #Publish results to qTest
-  #- task: PowerShell@2
-  #  displayName: Publish results to qTest
-  #  condition: always()
-  #  inputs:
-  #    targetType: 'filePath'
-  #    filePath: $(System.DefaultWorkingDirectory)\tests\publish-results-to-qtest.ps1
-  #    arguments: >
-  #      -projectId "105466"
-  #      -testCycle "2193247"
-  #      -uploadResultsFile "$(System.DefaultWorkingDirectory)\results\results.xml"
+  - task: PowerShell@2
+    displayName: Publish results to qTest
+    condition: always()
+    inputs:
+      targetType: 'filePath'
+      filePath: $(System.DefaultWorkingDirectory)\tests\publish-results-to-qtest.ps1
+      arguments: >
+        -projectId "105466"
+        -testCycle "2193247"
+        -uploadResultsFile "$(System.DefaultWorkingDirectory)\results\*_results.xml"
 
   #Export PDF Report
   #- task: PowerShell@2
