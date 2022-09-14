@@ -60,23 +60,23 @@ jobs:
         -projectName "NEW_DEX_WS"
         -creator "Shahar Shiff"
         -resultsFileName 'results.xml'
-        -resultaFolder = '.\results'
+        -resultaFolder '.\results'
         -debug "true"
   #      -resultsFile "results\results.xml"
   #      -executionListFile "tests\conf-execution-list.xml"
   #      -toscaServer "http://toscademovm:5007"
 
   #Publish results to qTest
-  - task: PowerShell@2
-    displayName: Publish results to qTest
-    condition: always()
-    inputs:
-      targetType: 'filePath'
-      filePath: $(System.DefaultWorkingDirectory)\tests\publish-results-to-qtest.ps1
-      arguments: >
-        -projectId "105466"
-        -testCycle "2193247"
-        -uploadResultsFile "$(System.DefaultWorkingDirectory)\results\*_results.xml"
+#  - task: PowerShell@2
+#    displayName: Publish results to qTest
+#    condition: always()
+#    inputs:
+#      targetType: 'filePath'
+#      filePath: $(System.DefaultWorkingDirectory)\tests\publish-results-to-qtest.ps1
+#      arguments: >
+#        -projectId "105466"
+#        -testCycle "2193247"
+#        -uploadResultsFile "$(System.DefaultWorkingDirectory)\results\*_results.xml"
 
   #Export PDF Report
   #- task: PowerShell@2
