@@ -1,6 +1,6 @@
 [
   {
-    "eventId": "Jenkins_pipeline",
+    "eventId": "GetSetPerson",
     "parameters": {
       "AutoMake": "Acura"
     },
