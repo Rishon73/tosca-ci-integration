@@ -44,9 +44,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        if (!(Test-Path $resultaFolder)) {New-Item $resultaFolder -ItemType Directory}
-        Write-Host $fileName 
-        Write-Host $resultaFolder
+        if (!(Test-Path '.\results')) {New-Item '.\results' -ItemType Directory}
 
   #Run Tosca test(s) via ToscaCIClient
   - task: PowerShell@2
@@ -61,8 +59,8 @@ jobs:
         -eventsConfigFilePath "tests\testEvents.json"
         -projectName "NEW_DEX_WS"
         -creator "Shahar Shiff"
-        -resultsFileName $fileName
-        -resultaFolder = $resultaFolder
+        -resultsFileName 'results.xml'
+        -resultaFolder = '.\results'
         -debug "true"
   #      -resultsFile "results\results.xml"
   #      -executionListFile "tests\conf-execution-list.xml"
