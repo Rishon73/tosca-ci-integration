@@ -35,6 +35,15 @@ jobs:
   steps:
   - checkout: self
 
+  #Create results folder if doesn't exist
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        if (!(Test-Path $resultaFolder)) {New-Item $resultaFolder -ItemType Directory}
+        $fileName=[guid]::NewGuid().ToString()+"_results.xml"
+        Write-Host $fileName 
+
   #Run Tosca test(s) via ToscaCIClient
   - task: PowerShell@2
     displayName: Run Tosca test(s) via ToscaCIClient
@@ -47,6 +56,8 @@ jobs:
         -eventsConfigFilePath "tests\testEvents.json"
         -projectName "NEW_DEX_WS"
         -creator "Shahar Shiff"
+        -resultsFileName $fileName
+        -resultaFolder = ".\results"
         -debug "true"
   #      -resultsFile "results\results.xml"
   #      -executionListFile "tests\conf-execution-list.xml"
