@@ -40,6 +40,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
+        $resultaFolder = ".\results"
         if (!(Test-Path $resultaFolder)) {New-Item $resultaFolder -ItemType Directory}
         $fileName=[guid]::NewGuid().ToString()+"_results.xml"
         Write-Host $fileName 
@@ -57,7 +58,7 @@ jobs:
         -projectName "NEW_DEX_WS"
         -creator "Shahar Shiff"
         -resultsFileName $fileName
-        -resultaFolder = ".\results"
+        -resultaFolder = $resultaFolder
         -debug "true"
   #      -resultsFile "results\results.xml"
   #      -executionListFile "tests\conf-execution-list.xml"
