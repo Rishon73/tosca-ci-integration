@@ -60,7 +60,7 @@ jobs:
         -projectName "NEW_DEX_WS"
         -creator "Shahar Shiff"
         -resultsFileName 'results.xml'
-        -resultaFolder '.\results'
+        -resultaFolder './results'
         -debug "true"
   #      -resultsFile "results\results.xml"
   #      -executionListFile "tests\conf-execution-list.xml"
@@ -91,7 +91,7 @@ jobs:
     condition: always()
     inputs:
       testResultsFormat: 'JUnit'
-      testResultsFiles: 'results\results.xml'
+      testResultsFiles: './results/results.xml'
       testRunTitle: 'Publish JUNIT test results'
 
 - job: Deploy_to_Staging
