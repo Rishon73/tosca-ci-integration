@@ -29,6 +29,8 @@ jobs:
 - job: Run_Tests
   displayName: Run Tosca tests
   dependsOn: Deploy_Application
+  variables:
+    fileName: "[guid]::NewGuid().ToString()"
 
   pool:
     name: Self-hosted Tosca
@@ -37,12 +39,13 @@ jobs:
 
   #Create results folder if doesn't exist
   - task: PowerShell@2
+    name: SetResFolder
     inputs:
       targetType: 'inline'
       script: |
         $resultaFolder = ".\results"
         if (!(Test-Path $resultaFolder)) {New-Item $resultaFolder -ItemType Directory}
-        $fileName=[guid]::NewGuid().ToString()+"_results.xml"
+        $fileName = $fileName+"_results.xml"
         Write-Host $fileName 
 
   #Run Tosca test(s) via ToscaCIClient
