@@ -41,6 +41,7 @@ jobs:
   #Create results folder if doesn't exist
   - task: PowerShell@2
     name: SetResultsFolder
+    displayName: "Create results folder"
     inputs:
       targetType: 'inline'
       script: |
@@ -59,9 +60,10 @@ jobs:
         -eventsConfigFilePath "tests\testEvents.json"
         -projectName "NEW_DEX_WS"
         -creator "Shahar Shiff"
-        -resultsFileName 'results.xml'
         -resultaFolder './results'
         -debug "true"
+#        -resultsFileName 'results.xml'
+
   #      -resultsFile "results\results.xml"
   #      -executionListFile "tests\conf-execution-list.xml"
   #      -toscaServer "http://toscademovm:5007"
@@ -76,7 +78,7 @@ jobs:
 #      arguments: >
 #        -projectId "105466"
 #        -testCycle "2193247"
-#        -uploadResultsFile "$(System.DefaultWorkingDirectory)\results\*_results.xml"
+#        -uploadResultsFile "$(System.DefaultWorkingDirectory)\results\results.xml"
 
   #Export PDF Report
   #- task: PowerShell@2
@@ -91,7 +93,8 @@ jobs:
     condition: always()
     inputs:
       testResultsFormat: 'JUnit'
-      testResultsFiles: './results/results.xml'
+      testResultsFiles: '**/*results.xml'
+#      testResultsFiles: 'tests/aos-api/results/results.xml'
       testRunTitle: 'Publish JUNIT test results'
 
 - job: Deploy_to_Staging

@@ -19,13 +19,16 @@ Enqueue only:
 
 
 {
-  "ProjectName":"SQL Server Shared Workspace",
-  "ExecutionEnvironment":"true",
+  "ProjectName":"NEW_DEX_WS",
+  "ExecutionEnvironment":"Dex",
   "Events":[
     {
-      "eventId": "Renault TestEvent"
+      "eventId": "Triggered by API",
+      "parameters": {
+        "AutoMake": "Mazda"
+      }
     }
   ],
   "ImportResult":true,
-  "Creator":"Matt"
+  "Creator":"Shahar Shiff"
 }
