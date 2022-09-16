@@ -58,7 +58,7 @@ jobs:
       arguments: >
         -toscaServerUrl "http://localhost"
         -eventsConfigFilePath "tests\testEvents.json"
-        -projectName "Green Team"
+        -projectName $(projectName)
         -creator "Shahar Shiff @ADO"
         -resultaFolder './results'
         -debug "true"
