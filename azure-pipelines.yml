@@ -47,10 +47,10 @@ jobs:
       script: |
         if (!(Test-Path '.\results')) {New-Item '.\results' -ItemType Directory}
 
-  #Run Tosca test(s) via ToscaCIClient
+  #Run Tosca test(s) via AOS API
   - task: PowerShell@2
     name: RunToscaTests
-    displayName: Run Tosca test(s) via ToscaCIClient
+    displayName: Run Tosca test(s)
     inputs:
       targetType: 'filePath'
       #filePath: $(System.DefaultWorkingDirectory)\tests\run-tosca-test.ps1
@@ -58,12 +58,11 @@ jobs:
       arguments: >
         -toscaServerUrl "http://localhost"
         -eventsConfigFilePath "tests\testEvents.json"
-        -projectName "NEW_DEX_WS"
-        -creator "Shahar Shiff"
+        -projectName "Green Team"
+        -creator "Shahar Shiff @ADO"
         -resultaFolder './results'
         -debug "true"
 #        -resultsFileName 'results.xml'
-
   #      -resultsFile "results\results.xml"
   #      -executionListFile "tests\conf-execution-list.xml"
   #      -toscaServer "http://toscademovm:5007"
