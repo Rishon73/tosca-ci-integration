@@ -9,97 +9,71 @@ resources:
     type: git
     ref: master
 
-jobs:
-- job: Build_Application
-  displayName: Build Tricentis Insurance Quoting Application
-  pool:
-    name: Self-hosted Tosca
-  steps:
-    - script: echo Building now...
+pool:
+  name: Self-hosted Tosca
 
-- job: Deploy_Application
-  displayName: Deploy application do Docker
-  pool:
-    name: Self-hosted Tosca
-  steps:
-    - script: echo set environment...
-    - script: echo depoly to container...
-  dependsOn: Build_Application
+stages:
+- stage: build
+  jobs:
+    - job: build_app
+      displayName: Build Tricentis Insurance Quoting Application
+      steps:
+        - script: echo build application...
 
-- job: Run_Tests
-  displayName: Run Tosca tests
-  dependsOn: Deploy_Application
-  variables:
-    fileName: 'results.xml'
-    resultaFolder: '.\results'
+- stage: deploy
+  jobs:
+    - job: deploy_app
+      displayName: Deploy application do Docker container
+      dependsOn: build_app
+      steps:
+        - script: echo set environment...
+        - script: echo depoly to container...
 
-  pool:
-    name: Self-hosted Tosca
-  steps:
-  - checkout: self
+- stage: test
+  jobs:
+    - job: test_app
+      displayName: Run Tosca tests
+      dependsOn: deploy_app
+      variables:
+        fileName: 'results.xml'
+        resultaFolder: './results'
 
-  #Create results folder if doesn't exist
-  - task: PowerShell@2
-    name: SetResultsFolder
-    displayName: "Create results folder"
-    inputs:
-      targetType: 'inline'
-      script: |
-        if (!(Test-Path '.\results')) {New-Item '.\results' -ItemType Directory}
+      steps:
+      #Create results folder if doesn't exist
+      - task: PowerShell@2
+        name: SetResultsFolder
+        displayName: "Create results folder"
+        inputs:
+          targetType: 'inline'
+          script: |
+            if (!(Test-Path '.\results')) {New-Item '.\results' -ItemType Directory}
 
-  #Run Tosca test(s) via AOS API
-  - task: PowerShell@2
-    name: RunToscaTests
-    displayName: Run Tosca test(s)
-    inputs:
-      targetType: 'filePath'
-      #filePath: $(System.DefaultWorkingDirectory)\tests\run-tosca-test.ps1
-      filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
-      arguments: >
-        -toscaServerUrl "http://localhost"
-        -eventsConfigFilePath "tests\testEvents.json"
-        -projectName $(projectName)
-        -creator "Shahar Shiff @ADO"
-        -resultaFolder './results'
-        -debug "true"
-#        -resultsFileName 'results.xml'
-  #      -resultsFile "results\results.xml"
-  #      -executionListFile "tests\conf-execution-list.xml"
-  #      -toscaServer "http://toscademovm:5007"
+      #Run Tosca test(s) via AOS API
+      - task: PowerShell@2
+        name: RunToscaTests
+        displayName: Run Tosca test(s)
+        inputs:
+          targetType: 'filePath'
+          filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
+          arguments: >
+            -toscaServerUrl "http://localhost"
+            -eventsConfigFilePath "tests\testEvents.json"
+            -projectName $(projectName)
+            -creator "Shahar Shiff @ADO"
+            -resultaFolder './results'
+            -debug "true"
+      - task: PublishTestResults@2
+        condition: always()
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/*results.xml'
+          testRunTitle: 'Publish JUNIT test results'
 
-  #Publish results to qTest
-#  - task: PowerShell@2
-#    displayName: Publish results to qTest
-#    condition: always()
-#    inputs:
-#      targetType: 'filePath'
-#      filePath: $(System.DefaultWorkingDirectory)\tests\publish-results-to-qtest.ps1
-#      arguments: >
-#        -projectId "105466"
-#        -testCycle "2193247"
-#        -uploadResultsFile "$(System.DefaultWorkingDirectory)\results\results.xml"
-
-  #Export PDF Report
-  #- task: PowerShell@2
-  #  displayName: Export PDF Report
-    #condition: always()
-    #inputs:
-      #targetType: 'filePath'
-      #filePath: $(System.DefaultWorkingDirectory)\tests\export-pdf-report.ps1
-
-  #Publish Test Results
-  - task: PublishTestResults@2
-    condition: always()
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '**/*results.xml'
-#      testResultsFiles: 'tests/aos-api/results/results.xml'
-      testRunTitle: 'Publish JUNIT test results'
-
-- job: Deploy_to_Staging
-  displayName: Deploy to the staging env
-  pool:
-    name: Self-hosted Tosca
-  steps:
-    - script: echo Deploying to staging now...
-  dependsOn: Run_Tests
+- stage: staging
+  displayName: Deploy App to staging env
+  jobs:
+    - job: deploy_app_to_staging
+      displayName: Deploy application to staging
+      dependsOn: test_app
+      steps:
+        - script: echo Deploying to staging environment...
