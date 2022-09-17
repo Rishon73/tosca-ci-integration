@@ -48,18 +48,13 @@ stages:
     - job: run_tests
       displayName: Run Tosca test(s)
       steps:
-
-      - task: PowerShell@2
-        displayName: Create results folder
+      #Publish Pipeline Artifact
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Pipeline Artifact
         inputs:
-          targetType: 'inline'
-          script: |
-            Write-Host "Debug::::::"
-            Write-Host -toscaServerUrl "$(toscaServerUrl)"
-            Write-Host -eventsConfigFilePath "tests\testEvents.json"
-            Write-Host -projectName "$(projectName)"
-            Write-Host -creator "$(creator)"
-            Write-Host -resultsFolderPath "$(resultsFolder)"
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'pipelineArtifacts'
+          publishLocation: 'pipeline'
 
       #Run Tosca test(s) via AOS API
       - task: PowerShell@2
@@ -75,19 +70,15 @@ stages:
             -resultsFolderPath "$(resultsFolder)"
             -pollingInterval 20
             -debug "true"
-      - task: PublishPipelineArtifact@1
-        displayName: Publish Pipeline Artifact
-        inputs:
-          targetPath: '$(Pipeline.Workspace)'
-          artifact: 'pipelineArtifacts'
-          publishLocation: 'pipeline'
+    #Publish Test Results
     - job: publish_results
       displayName: Publish Test Results
       steps:
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: '**/*_results.xml'
+          testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/aos-api/results/*_results.xml'
+          #testResultsFiles: '**/*_results.xml'
 
 - stage: staging
   displayName: Deploy App to staging env
