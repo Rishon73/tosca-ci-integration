@@ -70,18 +70,15 @@ stages:
             -resultsFolderPath "$(resultsFolder)"
             -pollingInterval 20
             -debug "true"
-    #Publish Test Results
-    - job: publish_results
-      displayName: Publish Test Results
-      steps:
+
+      #Publish Test Results
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/aos-api/results/*_results.xml'
+          testResultsFiles: '$(System.DefaultWorkingDirectory)\tests\aos-api\results\*_results.xml'
           #testResultsFiles: '**/*_results.xml'
 
 - stage: staging
-  displayName: Deploy App to staging env
   jobs:
     - job: deploy_app_to_staging
       displayName: Deploy application to staging
