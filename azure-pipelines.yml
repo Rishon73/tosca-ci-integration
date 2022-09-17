@@ -64,11 +64,11 @@ stages:
             -resultaFolder './results'
             -debug "true"
       - task: PublishTestResults@2
-        condition: always()
+        condition: succeededOrFailed()
         inputs:
-          testResultsFormat: 'JUnit'
-          testResultsFiles: '**/*results.xml'
-          testRunTitle: 'Publish JUNIT test results'
+          testRunner: JUnit
+          testResultsFiles: '**/*_results.xml'
+#          testRunTitle: 'Publish JUNIT test results'
 
 - stage: staging
   displayName: Deploy App to staging env
