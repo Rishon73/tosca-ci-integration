@@ -7,7 +7,7 @@ resources:
   repositories:
   - repository: self
     type: git
-    ref: master
+    ref: main
 
 pool:
   name: Self-hosted Tosca
