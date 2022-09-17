@@ -22,18 +22,20 @@ stages:
 
 - stage: deploy
   jobs:
-    - job: deploy_app
-      displayName: Deploy application do Docker container
-      dependsOn: build_app
+    - job: pre_deploy_app
+      displayName: Pre deploying application to Docker container
       steps:
         - script: echo set environment...
+    - job: deploy_app
+      displayName: Deploy application to Docker container
+      dependsOn: build_app
+      steps:
         - script: echo depoly to container...
 
 - stage: test
   jobs:
     - job: test_app
       displayName: Run Tosca tests
-      dependsOn: deploy_app
       variables:
         fileName: 'results.xml'
         resultaFolder: './results'
@@ -74,6 +76,5 @@ stages:
   jobs:
     - job: deploy_app_to_staging
       displayName: Deploy application to staging
-      dependsOn: test_app
       steps:
         - script: echo Deploying to staging environment...
