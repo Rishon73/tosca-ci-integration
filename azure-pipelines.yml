@@ -34,7 +34,7 @@ stages:
 - stage: test
   jobs:
     - job: prep_test_env
-      displayName: Prepare the Test Env.
+      displayName: Prepare Test Env.
       steps:
       #Create results folder if doesn't exist
       - task: PowerShell@2
@@ -43,14 +43,27 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            if (!(Test-Path "$(resultaFolder)")) {New-Item "$(resultaFolder)" -ItemType Directory}
+            if (!(Test-Path "$(resultsFolder)")) {New-Item "$(resultsFolder)" -ItemType Directory}
 
     - job: run_tests
+      displayName: Run Tosca test(s)
       steps:
+
+      - task: PowerShell@2
+        displayName: Create results folder
+        inputs:
+          targetType: 'inline'
+          script: |
+            Write-Host "Debug::::::"
+            Write-Host -toscaServerUrl "$(toscaServerUrl)"
+            Write-Host -eventsConfigFilePath "tests\testEvents.json"
+            Write-Host -projectName "$(projectName)"
+            Write-Host -creator "$(creator)"
+            Write-Host -resultsFolderPath "$(resultsFolder)"
+
       #Run Tosca test(s) via AOS API
       - task: PowerShell@2
         name: RunToscaTests
-        displayName: Run Tosca test(s)
         inputs:
           targetType: 'filePath'
           filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
@@ -59,7 +72,7 @@ stages:
             -eventsConfigFilePath "tests\testEvents.json"
             -projectName "$(projectName)"
             -creator "$(creator)"
-            -resultaFolder "$(resultsFolder)"
+            -resultsFolderPath "$(resultsFolder)"
             -pollingInterval 20
             -debug "true"
       - task: PublishPipelineArtifact@1
