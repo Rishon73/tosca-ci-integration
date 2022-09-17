@@ -59,7 +59,7 @@ stages:
           arguments: >
             -toscaServerUrl "http://localhost"
             -eventsConfigFilePath "tests\testEvents.json"
-            -projectName $(projectName)
+            -projectName "$(projectName)"
             -creator "Shahar Shiff @ADO"
             -resultaFolder './results'
             -debug "true"
