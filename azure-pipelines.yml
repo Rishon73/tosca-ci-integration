@@ -28,7 +28,6 @@ stages:
         - script: echo set environment...
     - job: deploy_app
       displayName: Deploy application to Docker container
-      dependsOn: build_app
       steps:
         - script: echo depoly to container...
 
