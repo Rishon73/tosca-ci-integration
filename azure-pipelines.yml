@@ -33,12 +33,8 @@ stages:
 
 - stage: test
   jobs:
-    - job: test_app
-      displayName: Run Tosca tests
-      variables:
-        fileName: 'results.xml'
-        resultaFolder: './results'
-
+    - job: prep_test_env
+      displayName: Prepare the Test Env.
       steps:
       #Create results folder if doesn't exist
       - task: PowerShell@2
@@ -47,8 +43,10 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            if (!(Test-Path '.\results')) {New-Item '.\results' -ItemType Directory}
+            if (!(Test-Path "$(resultaFolder)")) {New-Item "$(resultaFolder)" -ItemType Directory}
 
+    - job: run_tests
+      steps:
       #Run Tosca test(s) via AOS API
       - task: PowerShell@2
         name: RunToscaTests
@@ -57,18 +55,26 @@ stages:
           targetType: 'filePath'
           filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
           arguments: >
-            -toscaServerUrl "http://localhost"
+            -toscaServerUrl "$(toscaServerUrl)"
             -eventsConfigFilePath "tests\testEvents.json"
             -projectName "$(projectName)"
-            -creator "Shahar Shiff @ADO"
-            -resultaFolder './results'
+            -creator "$(creator)"
+            -resultaFolder "$(resultsFolder)"
+            -pollingInterval 20
             -debug "true"
-      - task: PublishTestResults@2
-        condition: succeededOrFailed()
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Pipeline Artifact
         inputs:
-          testRunner: JUnit
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'pipelineArtifacts'
+          publishLocation: 'pipeline'
+    - job: publish_results
+      displayName: Publish Test Results
+      steps:
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
           testResultsFiles: '**/*_results.xml'
-#          testRunTitle: 'Publish JUNIT test results'
 
 - stage: staging
   displayName: Deploy App to staging env
