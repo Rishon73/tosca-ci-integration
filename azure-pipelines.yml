@@ -48,17 +48,11 @@ stages:
     - job: run_tests
       displayName: Run Tosca test(s)
       steps:
-      #Publish Pipeline Artifact
-      - task: PublishPipelineArtifact@1
-        displayName: Publish Pipeline Artifact
-        inputs:
-          targetPath: '$(Pipeline.Workspace)'
-          artifact: 'pipelineArtifacts'
-          publishLocation: 'pipeline'
 
       #Run Tosca test(s) via AOS API
       - task: PowerShell@2
-        name: RunToscaTests
+        name: 
+        displayName: Exeute Tosca tests
         inputs:
           targetType: 'filePath'
           filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
@@ -71,8 +65,17 @@ stages:
             -pollingInterval 20
             -debug "true"
 
+      #Publish Pipeline Artifact
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Pipeline Artifact
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'pipelineArtifacts'
+          publishLocation: 'pipeline'
+
       #Publish Test Results
       - task: PublishTestResults@2
+        displayName: Publish results
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: '$(System.DefaultWorkingDirectory)\tests\aos-api\results\*_results.xml'
