@@ -46,17 +46,9 @@ stages:
 #          script: |
 #            if (!(Test-Path "$(resultsFolder)")) {New-Item "$(resultsFolder)" -ItemType Directory}
 
-#Publish Pipeline Artifact
-      - task: PublishPipelineArtifact@1
-        displayName: Publish Pipeline Artifact
-        inputs:
-          targetPath: '$(Pipeline.Workspace)'
-          artifact: 'pipelineArtifacts'
-          publishLocation: 'pipeline'
-
 #Run Tosca test(s) via AOS API
       - task: PowerShell@2
-        name: 
+        name:
         displayName: Exeute Tosca tests
         inputs:
           targetType: 'filePath'
@@ -70,6 +62,14 @@ stages:
             -executionEnvironment "Dex"
             -pollingInterval 20
             -debug "True"
+
+#Publish Pipeline Artifact
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Pipeline Artifact
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'pipelineArtifacts'
+          publishLocation: 'pipeline'
 
 #Publish Test Results
       - task: PublishTestResults@2
