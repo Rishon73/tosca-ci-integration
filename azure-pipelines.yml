@@ -67,6 +67,7 @@ stages:
             -projectName "$(projectName)"
             -creator "$(creator)"
             -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
+            -executionEnvironment "Dex"
             -pollingInterval 20
             -debug "True"
 
