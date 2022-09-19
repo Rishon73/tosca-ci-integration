@@ -37,14 +37,14 @@ stages:
       displayName: Run Tosca test(s)
       steps:
 
-      #Create results folder if doesn't exist
-      - task: PowerShell@2
-        name: SetResultsFolder
-        displayName: "Create results folder"
-        inputs:
-          targetType: 'inline'
-          script: |
-            if (!(Test-Path "$(resultsFolder)")) {New-Item "$(resultsFolder)" -ItemType Directory}
+#      #Create results folder if doesn't exist
+#      - task: PowerShell@2
+#        name: SetResultsFolder
+#        displayName: "Create results folder"
+#        inputs:
+#          targetType: 'inline'
+#          script: |
+#            if (!(Test-Path "$(resultsFolder)")) {New-Item "$(resultsFolder)" -ItemType Directory}
 
       #Run Tosca test(s) via AOS API
       - task: PowerShell@2
@@ -58,7 +58,7 @@ stages:
             -eventsConfigFilePath "$(eventsConfigFilePath)"
             -projectName "$(projectName)"
             -creator "$(creator)"
-            -resultsFolderPath "$(resultsFolder)"
+            -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
             -pollingInterval 20
             -debug "true"
 
@@ -67,7 +67,7 @@ stages:
         displayName: Publish results
         inputs:
           testResultsFormat: 'JUnit'
-          testResultsFiles: '$(System.DefaultWorkingDirectory)\tests\aos-api\results\*_results.xml'
+          testResultsFiles: '$(Pipeline.Workspace)\TestResults\*_results.xml'
           #testResultsFiles: '**/*_results.xml'
 
       #Publish Pipeline Artifact
