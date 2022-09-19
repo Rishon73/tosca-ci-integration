@@ -2,7 +2,8 @@
   {
     "eventId": "Project Blue",
     "parameters": {
-      "AutoMake": "Acura"
+      "AutoMake": "Audi",
+      "Browser": "Chrome"
     },
     "characteristics": {}
   }
