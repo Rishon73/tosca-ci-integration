@@ -33,9 +33,10 @@ stages:
 
 - stage: test
   jobs:
-    - job: prep_test_env
-      displayName: Prepare Test Env.
+    - job: run_tests
+      displayName: Run Tosca test(s)
       steps:
+
       #Create results folder if doesn't exist
       - task: PowerShell@2
         name: SetResultsFolder
@@ -44,10 +45,6 @@ stages:
           targetType: 'inline'
           script: |
             if (!(Test-Path "$(resultsFolder)")) {New-Item "$(resultsFolder)" -ItemType Directory}
-
-    - job: run_tests
-      displayName: Run Tosca test(s)
-      steps:
 
       #Run Tosca test(s) via AOS API
       - task: PowerShell@2
