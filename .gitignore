@@ -3,8 +3,9 @@ TWS
 #ExportSubsets.tsc
 #ImportSubsets.tsc
 *.pdf
+*.DS_Store
 
-results.xml
+*results.xml
 Results/
 logs/
 export-report.tsc
