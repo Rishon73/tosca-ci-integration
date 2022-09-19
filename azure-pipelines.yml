@@ -62,13 +62,13 @@ stages:
             -pollingInterval 20
             -debug "true"
 
-      #Publish Pipeline Artifact
-      - task: PublishPipelineArtifact@1
-        displayName: Publish Pipeline Artifact
-        inputs:
-          targetPath: '$(Pipeline.Workspace)'
-          artifact: 'pipelineArtifacts'
-          publishLocation: 'pipeline'
+#      #Publish Pipeline Artifact
+#      - task: PublishPipelineArtifact@1
+#        displayName: Publish Pipeline Artifact
+#        inputs:
+#          targetPath: '$(Pipeline.Workspace)'
+#          artifact: 'pipelineArtifacts'
+#          publishLocation: 'pipeline'
 
       #Publish Test Results
       - task: PublishTestResults@2
