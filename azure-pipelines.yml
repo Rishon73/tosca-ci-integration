@@ -62,13 +62,13 @@ stages:
             -pollingInterval 20
             -debug "true"
 
-#      #Publish Pipeline Artifact
-#      - task: PublishPipelineArtifact@1
-#        displayName: Publish Pipeline Artifact
-#        inputs:
-#          targetPath: '$(Pipeline.Workspace)'
-#          artifact: 'pipelineArtifacts'
-#          publishLocation: 'pipeline'
+      #Publish Pipeline Artifact
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Pipeline Artifact
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'pipelineArtifacts'
+          publishLocation: 'pipeline'
 
       #Publish Test Results
       - task: PublishTestResults@2
@@ -77,7 +77,12 @@ stages:
           testResultsFormat: 'JUnit'
           testResultsFiles: '$(System.DefaultWorkingDirectory)\tests\aos-api\results\*_results.xml'
           #testResultsFiles: '**/*_results.xml'
-
+      - task: DownloadBuildArtifacts@1
+        inputs:
+          buildType: 'current'
+          downloadType: 'specific'
+          itemPattern: '**/*_results.xml'
+          downloadPath: '$(System.ArtifactsDirectory)'
 - stage: staging
   jobs:
     - job: deploy_app_to_staging
