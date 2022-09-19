@@ -37,7 +37,7 @@ stages:
       displayName: Run Tosca test(s)
       steps:
 
-#      #Create results folder if doesn't exist
+##Create results folder if doesn't exist
 #      - task: PowerShell@2
 #        name: SetResultsFolder
 #        displayName: "Create results folder"
@@ -46,7 +46,15 @@ stages:
 #          script: |
 #            if (!(Test-Path "$(resultsFolder)")) {New-Item "$(resultsFolder)" -ItemType Directory}
 
-      #Run Tosca test(s) via AOS API
+#Publish Pipeline Artifact
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Pipeline Artifact
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'pipelineArtifacts'
+          publishLocation: 'pipeline'
+
+#Run Tosca test(s) via AOS API
       - task: PowerShell@2
         name: 
         displayName: Exeute Tosca tests
@@ -62,21 +70,13 @@ stages:
             -pollingInterval 20
             -debug "true"
 
-      #Publish Test Results
+#Publish Test Results
       - task: PublishTestResults@2
         displayName: Publish results
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: '$(Pipeline.Workspace)\TestResults\*_results.xml'
           #testResultsFiles: '**/*_results.xml'
-
-#      #Publish Pipeline Artifact
-#      - task: PublishPipelineArtifact@1
-#        displayName: Publish Pipeline Artifact
-#        inputs:
-#          targetPath: '$(Pipeline.Workspace)'
-#          artifact: 'pipelineArtifacts'
-#          publishLocation: 'pipeline'
 
 #      - task: DownloadBuildArtifacts@1
 #        inputs:
