@@ -55,12 +55,20 @@ stages:
           filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
           arguments: >
             -toscaServerUrl "$(toscaServerUrl)"
-            -eventsConfigFilePath "tests\testEvents.json"
+            -eventsConfigFilePath "$(eventsConfigFilePath)"
             -projectName "$(projectName)"
             -creator "$(creator)"
             -resultsFolderPath "$(resultsFolder)"
             -pollingInterval 20
             -debug "true"
+
+      #Publish Test Results
+      - task: PublishTestResults@2
+        displayName: Publish results
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '$(System.DefaultWorkingDirectory)\tests\aos-api\results\*_results.xml'
+          #testResultsFiles: '**/*_results.xml'
 
       #Publish Pipeline Artifact
       - task: PublishPipelineArtifact@1
@@ -70,19 +78,12 @@ stages:
           artifact: 'pipelineArtifacts'
           publishLocation: 'pipeline'
 
-      #Publish Test Results
-      - task: PublishTestResults@2
-        displayName: Publish results
-        inputs:
-          testResultsFormat: 'JUnit'
-          testResultsFiles: '$(System.DefaultWorkingDirectory)\tests\aos-api\results\*_results.xml'
-          #testResultsFiles: '**/*_results.xml'
-      - task: DownloadBuildArtifacts@1
-        inputs:
-          buildType: 'current'
-          downloadType: 'specific'
-          itemPattern: '**/*_results.xml'
-          downloadPath: '$(System.ArtifactsDirectory)'
+#      - task: DownloadBuildArtifacts@1
+#        inputs:
+#          buildType: 'current'
+#          downloadType: 'specific'
+#          itemPattern: '**/*_results.xml'
+#          downloadPath: '$(System.ArtifactsDirectory)'
 - stage: staging
   jobs:
     - job: deploy_app_to_staging
