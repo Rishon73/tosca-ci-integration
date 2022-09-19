@@ -67,10 +67,10 @@ stages:
           targetType: 'inline'
           script: |
             echo "$(Pipeline.Workspace)\TestResults"
-            Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*-full.zip' -Name
-            $resultsFileName = Get-ChildItem -Path "$(Pipeline.Workspace)/TestResults" -Filter '*-full.zip' -Name
+            Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' -Name
+            $resultsFileName = Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' -Name
             echo "resultsFileName: $resultsFileName"
-            $resFilePath = "$(Pipeline.Workspace)/TestResults/$resultsFileName"
+            $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
             echo "resFilePath: $resFilePath"
 
             $Content = Get-Content $resFilePath -Raw
