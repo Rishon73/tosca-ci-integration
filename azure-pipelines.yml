@@ -38,7 +38,6 @@ stages:
       steps:
 #Run Tosca test(s) via AOS API
       - task: PowerShell@2
-        name:
         displayName: Exeute Tosca tests
         inputs:
           targetType: 'filePath'
@@ -51,7 +50,6 @@ stages:
             -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
             -executionEnvironment "Dex"
             -pollingInterval 20
-            -enqueueOnly "True"
             -debug "True"
 
 #Publish Pipeline Artifact
@@ -61,6 +59,18 @@ stages:
           targetPath: '$(Pipeline.Workspace)'
           artifact: 'pipelineArtifacts'
           publishLocation: 'pipeline'
+
+ # Convert $OldPath file to UFT8 ($newFile)
+      - task: PowerShell@2
+        displayName: Convert results to UFT8
+        inputs:
+          targetType: 'inline'
+          script: |
+            $resultsFileName = Get-ChildItem -Path '$(Pipeline.Workspace)/TestResults' -Filter '*-full.zip' -Name
+            $resFilePath = '$(Pipeline.Workspace)/TestResults/$resultsFileName'
+            $Content = Get-Content $resFilePath -Raw
+            $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+            [System.IO.File]::WriteAllLines($resFilePath, $Content, $Utf8NoBomEncoding)
 
 #Publish Test Results
       - task: PublishTestResults@2
