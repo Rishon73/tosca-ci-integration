@@ -60,18 +60,15 @@ stages:
           artifact: 'pipelineArtifacts'
           publishLocation: 'pipeline'
 
- # Convert $OldPath file to UFT8 ($newFile)
+ # Convert results file to UFT8
       - task: PowerShell@2
         displayName: Convert results to UFT8
         inputs:
           targetType: 'inline'
           script: |
-            echo "$(Pipeline.Workspace)\TestResults"
-            Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' -Name
-            $resultsFileName = Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' -Name
-            echo "resultsFileName: $resultsFileName"
+            # in case there are multiple result files, sort and take the last one (most recently created)
+            $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' -Name | sort LastWriteTime | Select-Object -Last 1).name
             $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
-            echo "resFilePath: $resFilePath"
 
             $Content = Get-Content $resFilePath -Raw
             $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
