@@ -66,11 +66,12 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            echo '$(Pipeline.Workspace)/TestResults'
-            $resultsFileName = Get-ChildItem -Path '$(Pipeline.Workspace)/TestResults' -Filter '*-full.zip' -Name
-            echo 'resultsFileName: $resultsFileName'
-            $resFilePath = '$(Pipeline.Workspace)/TestResults/$resultsFileName'
-            echo 'resFilePath: $resFilePath'
+            echo "$(Pipeline.Workspace)/TestResults"
+            $resultsFileName = Get-ChildItem -Path "$(Pipeline.Workspace)/TestResults" -Filter '*-full.zip' -Name
+            echo "resultsFileName: $resultsFileName"
+            $resFilePath = "$(Pipeline.Workspace)/TestResults/$resultsFileName"
+            echo "resFilePath: $resFilePath"
+
             $Content = Get-Content $resFilePath -Raw
             $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
             [System.IO.File]::WriteAllLines($resFilePath, $Content, $Utf8NoBomEncoding)
