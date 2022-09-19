@@ -68,7 +68,7 @@ stages:
             -creator "$(creator)"
             -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
             -pollingInterval 20
-            -debug "true"
+            -debug True
 
 #Publish Test Results
       - task: PublishTestResults@2
