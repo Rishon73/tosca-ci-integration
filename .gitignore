@@ -4,6 +4,7 @@ TWS
 #ImportSubsets.tsc
 *.pdf
 *.DS_Store
+*.back
 
 *results.xml
 Results/
