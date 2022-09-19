@@ -70,13 +70,13 @@ stages:
           testResultsFiles: '$(Pipeline.Workspace)\TestResults\*_results.xml'
           #testResultsFiles: '**/*_results.xml'
 
-      #Publish Pipeline Artifact
-      - task: PublishPipelineArtifact@1
-        displayName: Publish Pipeline Artifact
-        inputs:
-          targetPath: '$(Pipeline.Workspace)'
-          artifact: 'pipelineArtifacts'
-          publishLocation: 'pipeline'
+#      #Publish Pipeline Artifact
+#      - task: PublishPipelineArtifact@1
+#        displayName: Publish Pipeline Artifact
+#        inputs:
+#          targetPath: '$(Pipeline.Workspace)'
+#          artifact: 'pipelineArtifacts'
+#          publishLocation: 'pipeline'
 
 #      - task: DownloadBuildArtifacts@1
 #        inputs:
