@@ -67,7 +67,7 @@ stages:
           targetType: 'inline'
           script: |
             # in case there are multiple result files, sort and take the last one (most recently created)
-            $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' -Name | sort LastWriteTime | Select-Object -Last 1).name
+            $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' | sort LastWriteTime | Select-Object -Last 1).name
             $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
 
             $Content = Get-Content $resFilePath -Raw
