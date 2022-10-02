@@ -69,10 +69,7 @@ stages:
             # in case there are multiple result files, sort and take the last one (most recently created)
             $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' | sort LastWriteTime | Select-Object -Last 1).name
             $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
-
-            $Content = Get-Content $resFilePath -Raw
-            $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
-            [System.IO.File]::WriteAllLines($resFilePath, $Content, $Utf8NoBomEncoding)
+            Get-Content -Path $resFilePath -Raw | Set-Content -Encoding UTF8 $resFilePath
 
 #Publish Test Results
       - task: PublishTestResults@2
@@ -93,8 +90,8 @@ stages:
             $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
 
             #write test event file with ADO test-case Id and results file names as parameters
-            $testEvent = Get-Content .\eventsConfig\manage-results-test-event.json -Raw
-            $testEvent -replace '#RESULT_FILE', $resFilePath -replace '#ADO_TEST_CASE_ID', $(AdoTestCaseId) | Out-File 'tempTestEvent.json'
+            $testEvent = Get-Content $(System.DefaultWorkingDirectory)\tests\eventsConfig\manage-results-test-event.json -Raw
+            $testEvent -replace '#RESULT_FILE', $resFilePath -replace '#ADO_TEST_CASE_ID', $(AdoTestCaseId) | Set-Content -Encoding UTF8 'tempTestEvent.json'
 
           #Run Tosca test - this will link the results to a new run in ADO Test Plan
           filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
