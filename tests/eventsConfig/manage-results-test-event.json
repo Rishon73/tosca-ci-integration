@@ -1,0 +1,10 @@
+[
+  {
+    "eventId": "LinkADOTestResults",
+    "parameters": {
+      "ResultFile": "#RESULT_FILE",
+      "AdoTestCaseId": "#ADO_TEST_CASE_ID"
+    },
+    "characteristics": {}
+  }
+]
