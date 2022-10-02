@@ -60,7 +60,7 @@ stages:
           artifact: 'pipelineArtifacts'
           publishLocation: 'pipeline'
 
- # Convert results file to UFT8
+# Convert results file to UFT8
       - task: PowerShell@2
         displayName: Convert results to UFT8
         inputs:
@@ -81,6 +81,33 @@ stages:
           testResultsFormat: 'JUnit'
           testResultsFiles: '$(Pipeline.Workspace)\TestResults\*_results.xml'
           #testResultsFiles: '**/*_results.xml'
+
+#Publish results to existing ADO Test Case
+      - task: PowerShell@2
+        displayName: Publish results to existing ADO Test Case
+        inputs:
+          targetType: 'inline'
+          script: |
+            #Get results file nanme
+            $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' | sort LastWriteTime | Select-Object -Last 1).name
+            $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
+
+            #write test event file with ADO test-case Id and results file names as parameters
+            $testEvent = Get-Content .\eventsConfig\manage-results-test-event.json -Raw
+            $testEvent -replace '#RESULT_FILE', $resFilePath -replace '#ADO_TEST_CASE_ID', $(AdoTestCaseId) | Out-File 'tempTestEvent.json'
+
+          #Run Tosca test - this will link the results to a new run in ADO Test Plan
+          filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
+          arguments: >
+            -toscaServerUrl "$(toscaServerUrl)"
+            -eventsConfigFilePath 'tempTestEvent.json'
+            -projectName "$(projectName)"
+            -creator "$(creator)"
+            -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
+            -executionEnvironment "Dex"
+            -pollingInterval 10
+            -debug "True"
+
 
 #      - task: DownloadBuildArtifacts@1
 #        inputs:
