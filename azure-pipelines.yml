@@ -100,17 +100,16 @@ stages:
             Write-Host "tempTestEvent.json:"  
             Get-Content 'tempTestEvent.json' -Raw
 
-          #Run Tosca test - this will link the results to a new run in ADO Test Plan
-          filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
-          arguments: >
-            -toscaServerUrl "$(toscaServerUrl)"
-            -eventsConfigFilePath 'tempTestEvent.json'
-            -projectName "$(projectName)"
-            -creator "Results Linker"
-            -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
-            -executionEnvironment "Dex"
-            -pollingInterval 10
-            -debug "True"
+            #Run Tosca test - this will link the results to a new run in ADO Test Plan
+            $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1 >
+              -toscaServerUrl "$(toscaServerUrl)" >
+              -eventsConfigFilePath 'tempTestEvent.json' >
+              -projectName "$(projectName)" >
+              -creator "Results Linker" >
+              -resultsFolderPath "$(Pipeline.Workspace)/TestResults" >
+              -executionEnvironment "Dex" >
+              -pollingInterval 10 >
+              -debug "True"
 
 
 #      - task: DownloadBuildArtifacts@1
