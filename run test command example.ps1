@@ -17,6 +17,9 @@ Enqueue only:
 
 & "".\tosca_execution_client.ps1" -toscaServerUrl "http://localhost" -events '[{"eventId": "GetSetPerson"}]' -projectName "NEW_DEX_WS" -creator "ss from host" -debug "true"
 
+& '.\tosca_execution_client.ps1' -toscaServerUrl 'http://toscademovm' -projectName 'Tosca Test' -events '["overnight"]' -executionEnvironment 'Dex' -debug true
+ -events '["overnight"]'
+
 
 {
   "ProjectName":"NEW_DEX_WS",
