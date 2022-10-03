@@ -104,7 +104,7 @@ stages:
             -toscaServerUrl "$(toscaServerUrl)"
             -eventsConfigFilePath 'tempTestEvent.json'
             -projectName "$(projectName)"
-            -creator "$(creator)"
+            -creator "Results Linker"
             -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
             -executionEnvironment "Dex"
             -pollingInterval 10
