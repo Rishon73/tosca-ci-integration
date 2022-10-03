@@ -88,11 +88,15 @@ stages:
           script: |
             #Get results file nanme
             $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' | sort LastWriteTime | Select-Object -Last 1).name
+            Write-Host "resultsFileName: " $resultsFileName
             $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
+            Write-Host "resFilePath: " $resFilePath
 
             #write test event file with ADO test-case Id and results file names as parameters
-            $testEvent = Get-Content $(System.DefaultWorkingDirectory)\tests\eventsConfig\manage-results-test-event.json -Raw
+            $testEvent = Get-Content -Path $(System.DefaultWorkingDirectory)\tests\eventsConfig\manage-results-test-event.json -Raw
+            Write-Host "testEvent: " $testEvent
             $testEvent -replace '#RESULT_FILE', $resFilePath -replace '#ADO_TEST_CASE_ID', $(AdoTestCaseId) | Set-Content -Encoding UTF8 'tempTestEvent.json'
+            Write-Host "tempTestEvent.json: "  Get-Content 'tempTestEvent.json' -Raw
 
           #Run Tosca test - this will link the results to a new run in ADO Test Plan
           filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
