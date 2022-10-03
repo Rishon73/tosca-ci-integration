@@ -69,7 +69,8 @@ stages:
             # in case there are multiple result files, sort and take the last one (most recently created)
             $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' | sort LastWriteTime | Select-Object -Last 1).name
             $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
-            Get-Content -Path $resFilePath -Raw | Set-Content -Encoding UTF8 $resFilePath
+            $content = Get-Content -Path $resFilePath -Raw
+            Set-Content -Encoding UTF8 -Path $resFilePath $content
 
 #Publish Test Results
       - task: PublishTestResults@2
