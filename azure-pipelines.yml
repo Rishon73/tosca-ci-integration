@@ -107,13 +107,6 @@ stages:
               -resultsFolderPath "$(Pipeline.Workspace)/TestResults" `
               -executionEnvironment "Dex" -pollingInterval 10 -debug "True"
 
-
-#      - task: DownloadBuildArtifacts@1
-#        inputs:
-#          buildType: 'current'
-#          downloadType: 'specific'
-#          itemPattern: '**/*_results.xml'
-#          downloadPath: '$(System.ArtifactsDirectory)'
 - stage: staging
   jobs:
     - job: deploy_app_to_staging
