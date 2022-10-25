@@ -1,0 +1,115 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: main
+
+pool:
+  name: Self-hosted Tosca
+
+stages:
+- stage: build
+  jobs:
+    - job: build_app
+      displayName: Build Tricentis Insurance Quoting Application
+#      steps:
+#        - script: echo build application...
+
+- stage: deploy
+  jobs:
+    - job: pre_deploy_app
+      displayName: Pre deploying application to Docker container
+#      steps:
+#        - script: echo set environment...
+    - job: deploy_app
+      displayName: Deploy application to Docker container
+#      steps:
+#        - script: echo depoly to container...
+
+- stage: test
+  jobs:
+    - job: run_tests
+      displayName: Run Tosca test(s)
+      steps:
+#Run Tosca test(s) via AOS API
+      - task: PowerShell@2
+        displayName: Exeute Tosca tests
+        inputs:
+          targetType: 'filePath'
+          filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
+          arguments: >
+            -toscaServerUrl "$(toscaServerUrl)"
+            -eventsConfigFilePath "$(eventsConfigFilePath)"
+            -projectName "$(projectName)"
+            -creator "$(creator)"
+            -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
+            -executionEnvironment "Dex"
+            -pollingInterval 20
+            -debug "True"
+
+#Publish Pipeline Artifact
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Pipeline Artifact
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'pipelineArtifacts'
+          publishLocation: 'pipeline'
+
+# Convert results file to UFT8
+      - task: PowerShell@2
+        displayName: Convert results to UFT8
+        inputs:
+          targetType: 'inline'
+          script: |
+            # in case there are multiple result files, sort and take the last one (most recently created)
+            $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' | sort LastWriteTime | Select-Object -Last 1).name
+            $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
+            $content = Get-Content -Path $resFilePath -Raw
+            Set-Content -Encoding UTF8 -Path $resFilePath $content
+
+#Publish Test Results
+      - task: PublishTestResults@2
+        displayName: Publish results
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '$(Pipeline.Workspace)\TestResults\*_results.xml'
+          #testResultsFiles: '**/*_results.xml'
+
+#Publish results to existing ADO Test Case
+      - task: PowerShell@2
+        displayName: Publish results to existing ADO Test Case
+        inputs:
+          targetType: 'inline'
+          script: |
+  
+           #Get results file nanme
+            $resultsFileName = (Get-ChildItem -Path "$(Pipeline.Workspace)\TestResults" -Filter '*_results.xml' | sort LastWriteTime | Select-Object -Last 1).name
+            $resFilePath = "$(Pipeline.Workspace)\TestResults\$resultsFileName"
+            $resFilePath = $resFilePath -replace [RegEx]::Escape("\"), "\\"
+            Write-Host "resFilePath: " $resFilePath
+ 
+            #write test event file with ADO test-case Id and results file names as parameters
+            $testEvent = Get-Content -Path $(System.DefaultWorkingDirectory)\tests\eventsConfig\manage-results-test-event.json -Raw
+            #Write-Host "testEvent: " $testEvent
+            $testEvent -replace '#RESULT_FILE', $resFilePath -replace '#ADO_TEST_CASE_ID', $(AdoTestCaseId) | Set-Content -Encoding UTF8 'tempTestEvent.json'
+            Write-Host "tempTestEvent.json:"  
+            Get-Content 'tempTestEvent.json' -Raw
+
+            #Run Tosca test - this will link the results to a new run in ADO Test Plan
+            $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1 `
+              -toscaServerUrl "$(toscaServerUrl)" -eventsConfigFilePath 'tempTestEvent.json' `
+              -projectName "$(projectName)" -creator "Results Linker" `
+              -resultsFolderPath "$(Pipeline.Workspace)/TestResults" `
+              -executionEnvironment "Dex" -pollingInterval 10 -debug "True"
+
+- stage: staging
+  jobs:
+    - job: deploy_app_to_staging
+      displayName: Deploy application to staging
+      steps:
+        - script: echo Deploying to staging environment...
