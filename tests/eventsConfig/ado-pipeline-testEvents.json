@@ -1,6 +1,6 @@
 [
   {
-    "eventId": "overnight",
+    "eventId": "ado-pipeline",
     "parameters": {
       "AutoMake": "Audi",
       "Browser": "Chrome"
