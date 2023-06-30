@@ -1,9 +1,11 @@
 [
   {
-    "eventId": "overnight",
+    "eventId": "ado-shash",
     "parameters": {
       "AutoMake": "Acura"
     },
-    "characteristics": {}
+    "characteristics": {
+      "SAName" : "shash"
+    }
   }
 ]
