@@ -9,9 +9,11 @@ resources:
     type: git
     ref: main
 
-pool:
-  name: Self-hosted Tosca
-
+pool: 
+   name: Default
+   demands:
+    - agent.name -equals shash-agent
+    
 stages:
 - stage: build
   jobs:
