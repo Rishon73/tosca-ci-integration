@@ -10,3 +10,4 @@ TWS
 Results/
 logs/
 export-report.tsc
+*.sublime-workspace
