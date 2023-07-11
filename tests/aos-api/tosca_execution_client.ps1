@@ -3,7 +3,6 @@
 #####################################################################################
 #
 # Tosca Execution Client for PowerShell
-# Version 1.0.0
 # Triggers Tosca TestEvents via Tosca Server Execution API
 #
 #####################################################################################
@@ -73,7 +72,7 @@ function displayHelp() {
     Write-Output "Mandatory parameters:"
     Write-Output " toscaServerUrl            URL of Tosca Server, e.g. https://myserver.tricentis.com or http://111.111.111.0:81."
     Write-Output " projectName               Project root name of the Tosca project where the event is located."
-    Write-Output " events                    Names or uniqueIds of the events that you want to execute, separated by comma. If you want to overwrite TCPs or Agent Characteristics for a specific event, use the ""eventsConfigFilePath"" parameter instead."
+    Write-Output " events                    Stringified JSON array containing the names or uniqueIds of the events that you want to execute. If you want to overwrite TCPs or Agent Characteristics for a specific event, use the ""eventsConfigFilePath"" parameter instead."
     Write-Output " eventsConfigFilePath      Path to the JSON file that contains the event configuration, including TCPs and Agent Characteristics. If you use this parameter, you don't need to use the ""events"" parameter."
 
     Write-Output "`nOptions:"
@@ -124,7 +123,7 @@ function log([string]$logLevel, [string]$logMessage) {
     $logFilePath = "$logFolderPath\$logFileName"
 
     try {        
-        $message | Out-File $logFilePath -Append
+        $message | Out-File $logFilePath -Append       
 
     } catch {
         Write-Output "$ts [ERR] ToscaExecutionClient failed to write the log message in ""$path""."
@@ -259,7 +258,8 @@ function writeResults([bool]$writePartialResults = $false) {
         }
 
         try {
-            $executionResults | Out-File $resultsFilePath
+            $Utf8Encoding = New-Object System.Text.UTF8Encoding $False
+            [System.IO.File]::WriteAllLines($resultsFilePath, $executionResults, $Utf8Encoding)
             log "INF" "Finished writing execution results to file ""$resultsFilePath""."
 
         } catch {
@@ -336,6 +336,7 @@ function fetchOrRefreshAccessToken() {
                 -ContentType $contentType                `
                 -Method Post                             `
                 -TimeoutSec $requestTimeout              `
+                -UseBasicParsing                         `
 
             log "INF" "Sucessfully fetched access token"
 
@@ -391,6 +392,7 @@ function enqueueExecution() {
             -ContentType $contentType                                             `
             -Method Post                                                          `
             -TimeoutSec $requestTimeout                                           `
+            -UseBasicParsing                                                      `
 
         $status = $enqueueResponse.StatusCode
         $content = $enqueueResponse.Content
@@ -445,6 +447,7 @@ function fetchExecutionStatus () {
             -Headers $header                                                                  `
             -Method Get                                                                       `
             -TimeoutSec $requestTimeout                                                       `
+            -UseBasicParsing                                                                  `
 
         $status = $statusResponse.StatusCode
         $content = $statusResponse.Content
@@ -497,6 +500,7 @@ function fetchExecutionResults ([bool]$fetchPartialResults = $false) {
             -Headers $header                                                                                   `
             -Method Get                                                                                        `
             -TimeoutSec $requestTimeout                                                                        `
+            -UseBasicParsing                                                                                   `
 
         $status = $resultsResponse.StatusCode
         $content = $resultsResponse.Content
@@ -612,10 +616,16 @@ if ( ([String]::IsNullOrEmpty($executionId)) ) {
 # Start status polling
 log "INF" "Starting execution status polling with an interval of $pollingInterval seconds..."
 $executionTimeout = $(getTimestamp) + $clientTimeout
-
-while( ($(getTimestamp) -le $executionTimeout) -and -not ($executionStatus -like "*Completed*") -and -not ($executionStatus -eq "Error") -and -not ($executionStatus -eq "Cancelled") ) {
+$keepPolling = $true;
+while($keepPolling -eq $true) {
     fetchExecutionStatus
     log "INF" "Status of execution with id ""${executionId}"": ""${executionStatus}"""
+
+    $keepPolling = ($(getTimestamp) -le $executionTimeout) -and -not ($executionStatus -like "*Completed*") -and -not ($executionStatus -eq "Error") -and -not ($executionStatus -eq "Cancelled");
+
+    if($keepPolling -eq $false){
+        break;
+    }
 
     if ( $fetchPartialResults -eq $true ) {
         # Fetch partial results for the execution
@@ -627,13 +637,15 @@ while( ($(getTimestamp) -le $executionTimeout) -and -not ($executionStatus -like
         # Write partial results
         writeResults $true
     }
-
+    
     log "INF" "Starting next polling cycle in $pollingInterval seconds..."
     Start-Sleep -Seconds $pollingInterval
 }
 
 # Check for execution status after results polling
-if ( ($executionStatus -like "*Completed*") -or ($executionStatus -eq "Error") -or ($executionStatus -eq "Cancelled") ) {
+
+if ( ($executionStatus -like "*Completed*") )  
+{
     log "INF" "Execution with id ""${executionId}"" finished."
 
     # Fetch results when execution is finished
@@ -643,6 +655,18 @@ if ( ($executionStatus -like "*Completed*") -or ($executionStatus -eq "Error") -
     writeResults $false
     log "INF" "Stopping ToscaExecutionClient..."
     exit 0
+}
+elseif ( ($executionStatus -eq "Error") -or ($executionStatus -eq "Cancelled")) {
+    log "ERR" "Execution with id ""${executionId}"" Error or Cancelled!"
+
+    # Fetch results when execution is finished
+    fetchExecutionResults $false
+    
+    # Write execution results
+    writeResults $false
+    log "INF" "Stopping ToscaExecutionClient..."
+    exit 1
+
 
 } else {
     log "ERR" "Execution exceeded clientTimeout of $clientTimeout seconds. Stopping ToscaExecutionClient..."

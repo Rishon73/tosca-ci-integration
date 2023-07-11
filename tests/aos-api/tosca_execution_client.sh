@@ -3,7 +3,6 @@
 #####################################################################################
 #
 # Tosca Execution Client for Bash
-# Version 1.0.0
 # Triggers Tosca TestEvents via Tosca Server Execution API
 #
 #####################################################################################
@@ -93,7 +92,7 @@ function displayHelp() {
   echo " Mandatory parameters:"
   echo "  --toscaServerUrl        URL of Tosca Server, e.g. https://myserver.tricentis.com or http://111.111.111.0:81."
   echo "  --projectName           Project root name of the Tosca project where the event is located."
-  echo "  --events                Names or uniqueIds of the events that you want to execute, separated by comma. If you want to overwrite TCPs or Agent Characteristics for a specific event, use the \"eventsConfigFilePath\" parameter instead."
+  echo "  --events                Stringified JSON array containing the names or uniqueIds of the events that you want to execute. If you want to overwrite TCPs or Agent Characteristics for a specific event, use the \"eventsConfigFilePath\" parameter instead."
   echo "  --eventsConfigFilePath  Path to the JSON file that contains the event configuration, including TCPs and Agent Characteristics. If you use this parameter, you don't need to use the \"events\" parameter."
   echo -e "\n Options:"
   echo "  --caCertificate         Path to the CA certificate (in PEM format) that the ToscaExecutionClient uses for peer certificate validation. This parameter is mandatory if you use HTTPS and don't use the \"insecure\" parameter."
@@ -581,8 +580,8 @@ function writeResults() {
       fi
     fi
 
-    echo -e ${executionResults} > ${resultsFilePath} 2> >(logErrorsFromStdIn)
-   log "INF" "Finished writing execution results to file \"${resultsFilePath}\""
+    echo ${executionResults} > ${resultsFilePath} 2> >(logErrorsFromStdIn)
+    log "INF" "Finished writing execution results to file \"${resultsFilePath}\""
   fi
 }
 
@@ -594,7 +593,7 @@ function writeResults() {
 while [[ "$#" > 0 ]]; do case ${1} in
   # Mandatory parameters 
   --toscaServerUrl) toscaServerUrl="${2}"; shift;shift;;
-  --executionEnvironment) executonEnvironment="${2}"; shift;shift;;
+  --executionEnvironment) executionEnvironment="${2}"; shift;shift;;
   --projectName) projectName="${2}"; shift;shift;;
   --events) events="${2}"; shift;shift;;
   --eventsConfigFilePath) eventsConfigFilePath="${2}"; shift;shift;;
@@ -692,12 +691,20 @@ fi
 # Start status polling
 log "INF" "Starting execution status polling with an interval of ${pollingInterval} seconds..."
 executionTimeout=$(($(date +%s)+${clientTimeout}))
-
-while ( [ $(date +%s) -le ${executionTimeout} ] && [[ ! "${executionStatus}" == *"Completed"* ]] && [[ ! "${executionStatus}" == "Error" ]] && [[ ! "${executionStatus}" == "Cancelled" ]] )
+keepPolling=true;
+while ( [ "$keepPolling" == true ] )
 do
   fetchExecutionStatus
   log "INF" "Status of execution with id \"${executionId}\": \"${executionStatus}\""
 
+  if ( [ $(date +%s) -le ${executionTimeout} ] && [[ ! "${executionStatus}" == *"Completed"* ]] && [[ ! "${executionStatus}" == "Error" ]] && [[ ! "${executionStatus}" == "Cancelled" ]] ) 
+  then
+    keepPolling=true;
+  else
+    keepPolling=false;
+    break
+  fi
+  
   # Fetch partial results for the execution
   if ( [ "${fetchPartialResults}" == "true" ] ) then
     log "INF" "Fetching partial results ..."
@@ -714,7 +721,8 @@ do
 done
 
 # Check for execution status after results polling
-if ( [[ "${executionStatus}" == *"Completed"* ]] || [[ "${executionStatus}" == "Error" ]] || [[ "${executionStatus}" == "Cancelled" ]] ) then
+if ( [[ "${executionStatus}" == *"Completed"* ]] )
+then
   log "INF" "Execution with id \"${executionId}\" finished."
   
   # Fetch results when execution is finished
@@ -724,6 +732,9 @@ if ( [[ "${executionStatus}" == *"Completed"* ]] || [[ "${executionStatus}" == "
   writeResults "false"
   log "INF" "Stopping ToscaExecutionClient..."
   exit 0
+elif ( [[ "${executionStatus}" == "Error" ]] || [[ "${executionStatus}" == "Cancelled" ]] ) then
+  log "ERR" "Execution Error or Cancelled!"
+  exit 1
 else
   log "ERR" "Execution exceeded clientTimeout of ${clientTimeout} seconds. Stopping ToscaExecutionClient..."
   exit 1
