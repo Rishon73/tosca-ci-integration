@@ -20,23 +20,13 @@ stages:
     - job: run_tests
       displayName: Run Tosca test(s)
       steps:
-#Run Tosca test(s) via AOS API
       - task: PowerShell@2
-        displayName: Exeute Tosca tests
         inputs:
-          targetType: 'filePath'
-          filePath: $(System.DefaultWorkingDirectory)\tests\aos-api\tosca_execution_client.ps1
-          arguments: >
-            -toscaServerUrl "http://toscaserver23-1.toscademo.com"
-            -eventsConfigFilePath "tests/eventsConfig/testEvents.json"
-            -projectName "tosca_core_repo"
-            -clientId "tAHtNBkvR0qcXDNsmluU1Q"
-            -clientSecret "Nzj4KsZdXkSNac7HNWFduQ-6-ogoHhw0Kj7gGHVCp3Ug"
-            -resultsFolderPath "$(Pipeline.Workspace)/TestResults"
-            -executionEnvironment "Dex"
-            -creator "ADO-ToscaExecutionClient"
-            -pollingInterval "15"
-            -debug "true"
+          targetType: 'inline'
+          script: |
+            # Write your PowerShell commands here.
+            
+            Write-Host "Hello World"
 
 # Convert results file to UFT8
       - task: PowerShell@2
