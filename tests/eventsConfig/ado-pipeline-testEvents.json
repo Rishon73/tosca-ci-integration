@@ -1,10 +1,7 @@
 [
   {
-    "eventId": "overnight",
-    "parameters": {
-      "AutoMake": "Audi",
-      "Browser": "Chrome"
-    },
+    "eventId": "db",
+    "parameters": {},
     "characteristics": {}
   }
 ]
