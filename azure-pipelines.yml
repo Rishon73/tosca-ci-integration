@@ -10,9 +10,9 @@ resources:
     ref: main
 
 pool: 
-   name: Default
+   name: Self-hosted Tosca
    demands:
-    - agent.name -equals shash-agent
+    - agent.name -equals ToscaDemoVM-14
     
 stages:
 - stage: build
