@@ -1,7 +1,9 @@
 [
   {
-    "eventId": "ToscaTest",
-    "parameters": {},
+    "eventId": "ado-shash",
+    "parameters": {
+		"AutoMake": "Audi"
+	},
     "characteristics": {}
   }
 ]
