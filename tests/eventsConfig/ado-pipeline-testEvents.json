@@ -1,6 +1,6 @@
 [
 	{
-		"eventId": "ToscaTest",
+		"eventId": "ado-shash",
 		"parameters": {
 			"AutoMake": "Audi",
 			"Browser": "Chrome"
