@@ -13,7 +13,7 @@ pool:
    name: $(poolName)
    demands:
    #- agent.name -equals $(agentName)
-   - Agent.Version -equals "3.242.1"
+   - Agent.Version -equals 3.242.1
     
 stages:
 - stage: build
